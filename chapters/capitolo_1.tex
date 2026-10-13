@@ -1,0 +1,507 @@
+\chapter{Introduzione agli assiomi}
+
+La Meccanica Quantistica è basata su tre assimio fondamentali:
+
+\begin{assioma}
+    Uno stato fisico $\ket{\psi}$ è un vettore sullo spazio di Hilbert $\mathcal{H}$. Gli stati che consideriamo godono della condizione di normalizzazione 
+    \begin{equation}
+        \braket{\psi|\psi} = 1
+    \end{equation}
+    Più propriamente, gli stati sono raggi di modulo $1$ dello spazio $\mathcal{H}$, in quanto sono definiti a meno di una fase globale
+    \begin{equation*}
+        \ket{\psi} \sim e^{i\alpha} \ket{\psi} \quad , \quad \alpha \in \mathbb{R}
+    \end{equation*}
+\end{assioma}
+
+\begin{assioma}
+    A ciascun osservabile (o variabile dinamica) $O$ è associato un operatore lineare $\hat{O}: \mathcal{H} \to \mathcal{H}$ hermitiano, $\hat{O}^{\dagger} = \hat{O}$. I valori ammessi come esito di una misura sono gli autovalori di $\hat{O}$.
+\end{assioma}
+
+\begin{assioma}
+    Il valor medio di un osservabile $O$ su un ensamble di sistemi preparati identicamente, cioè il valore atteso dell'osservabile $O$ su uno stato $\ket{\psi}$ è dato dal seguente elemento di matrice 
+    \begin{equation}
+        \langle O \rangle \equiv \sum_n \lambda_n P_n = \Braket{\psi |\hat{O}|\psi}
+    \end{equation}
+    dove $\{\lambda_n\}$ sono gli autovalori (quindi assunti discreti) dell'operatori $\hat{O}$, mentre $P_n$ rappresenta la probabilità che l'osservabile $\hat{O}$ assuma il valore $\lambda_n$ quando il sistema è nello stato $\ket{\psi}$. 
+\end{assioma}
+
+Tuttavia se non viene data una giustificazione esplicita dell'introduzione di questi assiomi, questi potrebbero sembrare al quanto misteriosi. Di seguito andremo a mostrare come l'introduzione degli assiomi sia giustificata dall'esperienza pratica tramite un esperimento svolto nel $1922$ (quindi prima dell'avvento formale della meccanica quantistica) da Otto Stern e Walther Gerlach.  
+
+\section{Stern-Gerlach}
+
+Otto Stern e Walther Gerlach escogitarono un esperimento per determinare se le particelle avessero un momento angolare intrinseco. 
+
+Supponiamo di considerare particelle neutre e supponiamo che esse abbiamo momento magnetico intriseco $\mathbf{\mu}$. 
+Se la particella attraversa un campo magnetico non omogeneo, la forza a un'estremità del dipolo sarà leggermente maggiore di quella all'estremità opposta; questo causa la deflessione della particella. Si ha infatti che 
+%
+\begin{equation}
+    E_m(\mathbf{r}) = - \mathbf{\mu} \cdot \mathbf{B}(\mathbf{r}) \implies \mathbf{F} = - \nabla E_m(\mathbf{r}) = \nabla (\mathbf{\mu} \cdot \mathbf{B}(\mathbf{r}))
+\end{equation}
+Se consideriamo un campo magnetico non omogeneo che però ha solo componente lungo un asse (che scegliamo essere quello delle $z$) $\mathbf{B} = (0, 0, B_z)$, la relazione scritta sopra diventa 
+%
+\begin{equation}
+    \mathbf{F} = \nabla(\mathbf{\mu} \cdot B_z \ \hat{z}) = \mu_z \frac{\partial B_z}{\partial z} \ \hat{z}
+\end{equation}
+Quindi le particelle sono deflesse verso l'alto o verso il basso in base alla direzione del momento angolare intrinseco. 
+
+Andiamo adesso a costruire uno strumento in grado di generare un campo magnetico fortemente disomogeneo nella regione attraversata dal fascio.\\
+L'apparato si compone di quattro elementi in sequenza:
+%
+\begin{enumerate}
+    \item un \textbf{forno}, in cui si vaporizza il materiale (nell'esperimento originale argento) e da cui esce un fascio di atomi neutri;
+    \item un sistema di \textbf{fenditure collimatrici}, che seleziona gli atomi che viaggiano entro un cono stretto attorno a una direzione, che indichiamo con $\hat{y}$;
+    \item il \textbf{magnete}, lungo $L$, che genera il campo disomogeneo e nel quale gli atomi vengono deflessi;
+    \item una \textbf{lastra rivelatrice}, posta a distanza $D$ dall'uscita del magnete, su cui gli atomi si depositano.
+\end{enumerate}
+
+La geometria dei poli è l'elemento cruciale. Un polo termina a \emph{lama}, cioè con uno spigolo affilato parallelo alla direzione del fascio; il polo opposto presenta una \emph{scanalatura} concava affacciata allo spigolo. 
+In questo modo le linee di campo si addensano in prossimità della lama e si diradano verso la scanalatura, producendo nella regione intermedia un gradiente $\partial B_z / \partial z$ molto intenso. Il fascio viene fatto passare proprio in tale regione, parallelamente allo spigolo, così da attraversare una zona in cui il gradiente è approssimativamente uniforme.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+    line join=round, line cap=round,
+    every node/.style={font=\footnotesize},
+    piece/.style={line width=0.7pt},
+    beam/.style={dashed, dash pattern=on 2.6pt off 2.2pt, line width=0.55pt},
+    ax/.style={-{Latex[length=3.6pt]}, line width=0.45pt},
+    fld/.style={-{Latex[length=3.2pt]}, line width=0.35pt},
+]
+ 
+%% ============================= (a) apparato =============================
+ 
+% forno
+\draw[piece] (0,-0.5) rectangle (1.2,0.5);
+\draw[piece] (1.2,0.5) -- (1.45,0.16) (1.2,-0.5) -- (1.45,-0.16);
+\node[anchor=north] at (0.6,-0.68) {forno};
+ 
+% collimatori
+\foreach \x in {2.15,2.85}{
+  \draw[line width=1.1pt] (\x,0.1) -- (\x,0.46);
+  \draw[line width=1.1pt] (\x,-0.1) -- (\x,-0.46);
+}
+\node[anchor=north] at (2.5,-0.64) {collimatori};
+ 
+% fascio incidente
+\draw[beam] (1.45,0) -- (4.1,0);
+ 
+% atomo con momento magnetico intrinseco
+\fill (3.42,0) circle (1.5pt);
+\draw[-{Latex[length=3.6pt]}, line width=0.65pt] (3.42,0) -- ++(66:0.58)
+      node[anchor=south, inner sep=1.5pt] {$\boldsymbol\mu$};
+\draw[-{Latex[length=3.6pt]}, line width=0.65pt] (3.42,0) -- ++(0:0.55)
+      node[anchor=north, inner sep=2pt] {$v$};
+ 
+% magnete, vista laterale
+\draw[piece] (4.1,0.32) rectangle (6.0,0.95);
+\draw[piece] (4.1,-0.32) rectangle (6.0,-0.95);
+\node at (5.05,0.635) {S};
+\node at (5.05,-0.635) {N};
+\node[anchor=north] at (5.05,-1.1) {magnete};
+ 
+% lunghezza del magnete
+\draw[{Latex[length=3pt]}-{Latex[length=3pt]}, line width=0.4pt]
+   (4.1,1.18) -- (6.0,1.18) node[midway, anchor=south, inner sep=1.5pt] {$L$};
+ 
+% traiettorie deflesse
+\draw[line width=0.55pt] (4.1,0) .. controls (5.3,0) and (5.6,0.05) .. (6.0,0.16)
+      -- (7.95,0.44);
+\draw[line width=0.55pt] (4.1,0) .. controls (5.3,0) and (5.6,-0.05) .. (6.0,-0.16)
+      -- (7.95,-0.44);
+ 
+% lastra rivelatrice e tracce
+\draw[piece] (7.95,-1.0) -- (7.95,1.0);
+\fill (7.95,0.44) circle (1.9pt);
+\fill (7.95,-0.44) circle (1.9pt);
+\node[anchor=north] at (7.95,-1.15) {lastra};
+ 
+% banda attesa classicamente
+\draw[line width=0.45pt] (8.18,0.62) -- (8.32,0.62) -- (8.32,-0.62) -- (8.18,-0.62);
+\node[rotate=-90, anchor=south, font=\scriptsize] at (8.38,0) {previsione classica};
+ 
+% assi
+\begin{scope}[shift={(0.45,1.25)}]
+  \draw[ax] (0,0) -- (0,0.45)      node[anchor=south,      inner sep=1.5pt] {$z$};
+  \draw[ax] (0,0) -- (0.45,0)      node[anchor=west,       inner sep=1.5pt] {$y$};
+  \draw[ax] (0,0) -- (-0.27,-0.27) node[anchor=north east, inner sep=0.5pt] {$x$};
+\end{scope}
+ 
+\node[anchor=north west, font=\footnotesize\itshape] at (-0.15,-1.45) {(a)};
+ 
+%% ========================== (b) sezione dei poli ==========================
+\begin{scope}[shift={(10.45,0)}]
+ 
+  % polo superiore scanalato
+  \draw[piece] (-0.85,0.34) -- (-0.85,1.05) -- (0.85,1.05) -- (0.85,0.34)
+     .. controls (0.55,0.34) and (0.38,0.68) .. (0,0.68)
+     .. controls (-0.38,0.68) and (-0.55,0.34) .. (-0.85,0.34) -- cycle;
+  \node at (0,0.87) {S};
+ 
+  % polo inferiore a lama
+  \draw[piece] (-0.85,-1.05) -- (0.85,-1.05) -- (0.85,-0.52) -- (0.26,-0.52)
+     -- (0,-0.18) -- (-0.26,-0.52) -- (-0.85,-0.52) -- cycle;
+  \node at (0,-0.84) {N};
+ 
+  % linee di campo
+  \draw[fld] (0,-0.14) -- (0,0.60);
+  \foreach \s in {-1,1}{
+    \draw[fld] (\s*0.04,-0.15) .. controls (\s*0.26,0.18) .. (\s*0.28,0.56);
+    \draw[fld] (\s*0.08,-0.16) .. controls (\s*0.50,0.16) .. (\s*0.56,0.40);
+  }
+ 
+  % gradiente
+  \draw[-{Latex[length=3.6pt]}, line width=0.5pt] (1.2,-0.3) -- (1.2,0.3);
+  \node[anchor=west, font=\scriptsize] at (1.3,0) {$\dfrac{\partial B_z}{\partial z}$};
+ 
+  % assi
+  \draw[ax] (-1.42,-0.22) -- (-1.42,0.23) node[anchor=south, inner sep=1.5pt] {$z$};
+  \draw[ax] (-1.42,-0.22) -- (-1.02,-0.22) node[anchor=north, inner sep=1.5pt] {$x$};
+ 
+  \node[anchor=north west, font=\footnotesize\itshape] at (-1.5,-1.45) {(b)};
+\end{scope}
+ 
+\end{tikzpicture}
+\caption[Apparato di Stern--Gerlach]{%
+\textbf{(a)} Schema dell'apparato. 
+\textbf{(b)} Sezione dei poli.}
+\label{fig:stern-gerlach}
+\end{figure}
+
+Andremo a chiamare questo strumento stern-gerlach\mkeyword{stern-gerlach}.
+
+Se le particelle fossero classiche e rotanti su loro stesse ("dotate di spin"), allora la distribuzione del loro momento angolare di spin sarebbe casuale e ogni particella sarebbe deflessa verso l'alto o il basso (verso valori positivi o negativi di z) di una differente quantità, producendo una distribuzione regolare sullo schermo di un rivelatore.
+
+Sperimentalmente, però, \emph{le particelle che passano attraverso il campo magnetico sono deflesse o in alto o in basso di una quantità precisa}.\\
+Inoltre, se ruotiamo di un certo angolo lo stern-gerlach otteniamo lo stesso risultato solo che i punti di delessione adesso sono paralleli all'asse ruotato. 
+
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+    line join=round, line cap=round,
+    every node/.style={font=\footnotesize},
+    piece/.style={line width=0.7pt},
+    beam/.style={dashed, dash pattern=on 2.6pt off 2.2pt, line width=0.5pt},
+    traj/.style={line width=0.4pt},
+    curve/.style={line width=0.8pt},
+    ax/.style={-{Latex[length=3.6pt]}, line width=0.45pt},
+]
+ 
+%% ######################## (a) previsione classica ########################
+\begin{scope}[shift={(0,3.9)}]
+ 
+  % fascio incidente
+  \draw[beam] (-1.5,0) -- (0,0);
+ 
+  % magnete
+  \draw[piece] (0,0.34) rectangle (1.9,0.95);
+  \draw[piece] (0,-0.34) rectangle (1.9,-0.95);
+  \node at (0.95,0.645) {S};
+  \node at (0.95,-0.645) {N};
+ 
+  % ventaglio di traiettorie
+  \foreach \z in {-1.25,-0.94,-0.63,-0.31,0,0.31,0.63,0.94,1.25}{
+    \draw[traj] (0,0) .. controls (1.15,0) and (1.5,{0.07*\z})
+                .. (1.9,{0.176*\z}) -- (4.45,\z);
+  }
+ 
+  % lastra
+  \draw[piece] (4.45,-1.75) -- (4.45,1.75);
+ 
+  % distribuzione continua
+  \draw[curve] plot[domain=-1.72:1.72, samples=140, smooth]
+      ({4.68+1.25*exp(-(\x*\x)/0.5408)}, {\x});
+ 
+  % etichette
+  \node[anchor=west, align=left] at (6.0,0.95)
+     {distribuzione\\ continua};
+  \draw[line width=0.4pt] (5.95,0.95) -- (4.95,0.78);
+ 
+  \node[anchor=east, align=right, font=\footnotesize] at (-1.65,0)
+     {\textbf{(a)} previsione\\ classica};
+ 
+  % assi
+  \draw[ax] (-0.95,1.25) -- (-0.95,1.72) node[anchor=south, inner sep=1.5pt] {$z$};
+  \draw[ax] (-0.95,1.25) -- (-0.48,1.25) node[anchor=west,  inner sep=1.5pt] {$y$};
+\end{scope}
+ 
+%% ######################## (b) risultato osservato ########################
+\begin{scope}[shift={(0,0)}]
+ 
+  % fascio incidente
+  \draw[beam] (-1.5,0) -- (0,0);
+ 
+  % magnete
+  \draw[piece] (0,0.34) rectangle (1.9,0.95);
+  \draw[piece] (0,-0.34) rectangle (1.9,-0.95);
+  \node at (0.95,0.645) {S};
+  \node at (0.95,-0.645) {N};
+ 
+  % due sole traiettorie
+  \draw[line width=0.55pt] (0,0) .. controls (1.15,0) and (1.5,0.05)
+       .. (1.9,0.127) -- (4.45,0.72);
+  \draw[line width=0.55pt] (0,0) .. controls (1.15,0) and (1.5,-0.05)
+       .. (1.9,-0.127) -- (4.45,-0.72);
+ 
+  % lastra
+  \draw[piece] (4.45,-1.75) -- (4.45,1.75);
+ 
+  % due picchi stretti
+  \draw[curve] plot[domain=-1.72:1.72, samples=320, smooth]
+      ({4.68+1.25*exp(-((\x-0.72)*(\x-0.72))/0.0242)
+            +1.25*exp(-((\x+0.72)*(\x+0.72))/0.0242)}, {\x});
+ 
+  % separazione
+  \draw[{Latex[length=3pt]}-{Latex[length=3pt]}, line width=0.4pt]
+     (4.2,-0.72) -- (4.2,0.72) node[midway, fill=white, inner sep=1pt]
+     {$2\Delta z$};
+ 
+  % etichette dei picchi
+  \node[anchor=west] at (6.0,0.78)  {$S_z = +\hbar/2$};
+  \node[anchor=west] at (6.0,-0.78) {$S_z = -\hbar/2$};
+ 
+  \node[anchor=east, align=right, font=\footnotesize] at (-1.65,0)
+     {\textbf{(b)} risultato\\ osservato};
+\end{scope}
+ 
+\end{tikzpicture}
+\caption[Stern--Gerlach: previsione classica e risultato]{%
+\textbf{(a)} Previsione classica.
+\textbf{(b)} Risultato osservato.}
+\label{fig:sg-distribuzioni}
+\end{figure}
+
+\newpage
+
+Continuiamo gli esperimenti allineando più stern gerlach. 
+ 
+Per alleggerire gli schemi conviene adottare una notazione compatta: indichiamo ciascun apparato con una scatola contrassegnata dall'asse lungo cui è orientato il gradiente, $\hat{z}$, $\hat{x}$ e così via. 
+Il fascio entra da sinistra ed esce dai due canali di deflessione, che disegniamo come due rami. Un tratto spesso su un ramo indica che quel fascio viene \emph{bloccato}, cioè intercettato da uno schermo assorbente e rimosso dall'esperimento. Le percentuali riportate sui rami sono le frazioni di atomi raccolte in uscita.
+ 
+ 
+\subsection{Creazione di una sorgente pura}
+ 
+Il fascio che esce dal forno è casuale: non siamo in grado di prevedere se un singolo atomo verrà deflesso verso l'alto o verso il basso, e le due uscite raccolgono ciascuna il $50\%$ degli atomi. 
+Se riallineiamo i due fasci uscenti e li rimandiamo in un secondo apparato, qualunque sia la sua orientazione ritroviamo di nuovo una ripartizione $50\%$--$50\%$: il fascio ricostruito si comporta esattamente come quello di partenza. 
+Chiamiamo sorgente mista\mkeyword{sorgente mista} una sorgente di questo tipo.
+ 
+Blocchiamo invece una delle due uscite, per esempio quella inferiore, e teniamo il solo fascio deflesso verso l'alto. Se mandiamo questo fascio in un secondo apparato orientato anch'esso lungo $\hat{z}$, osserviamo che
+%
+\begin{itemize}
+    \item il $100\%$ degli atomi esce dal canale superiore;
+    \item il canale inferiore non raccoglie alcun atomo.
+\end{itemize}
+%
+Il risultato è riproducibile: per quanti apparati orientati lungo $\hat{z}$ mettiamo in fila, l'esito resta sempre lo stesso e nessun atomo viene perso.
+Chiamiamo il dispositivo così costruito sorgente pura\mkeyword{sorgente pura} lungo $\hat{z}\!\uparrow$, e lo indichiamo con il simbolo compatto di Fig.~\ref{fig:sorgente-pura}. Analogamente si costruisce una sorgente pura lungo qualunque altra direzione, bloccando il canale opportuno di un apparato orientato lungo quella direzione.
+ 
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[sgstyle]
+ 
+% --- (a) sorgente non polarizzata
+\begin{scope}[shift={(0,1.9)}]
+  \forno{0,-0.31}
+  \draw[ray] (0.95,0) -- (1.9,0);
+  \node[sg] at (2.31,0) {$\hat z$};
+  \draw[ray] (2.72,0) -- (3.9,0.5);
+  \draw[ray] (2.72,0) -- (3.9,-0.5);
+  \node[lbl, anchor=west] at (3.95,0.5)  {$50\%$};
+  \node[lbl, anchor=west] at (3.95,-0.5) {$50\%$};
+  \node[anchor=east, font=\footnotesize] at (-0.25,0) {(a)};
+\end{scope}
+ 
+% --- (b) uscita inferiore bloccata
+\begin{scope}[shift={(0,-0.6)}]
+  \forno{0,-0.31}
+  \draw[ray] (0.95,0) -- (1.9,0);
+  \node[sg] at (2.31,0) {$\hat z$};
+  \draw[ray] (2.72,0) -- (4.3,0.5);
+  \draw[ray] (2.72,0) -- (3.75,-0.42);
+  \draw[stop] (3.82,-0.62) -- (3.82,-0.26);
+  \node[lbl, anchor=west] at (4.35,0.5) {$100\%$};
+  \node[anchor=east, font=\footnotesize] at (-0.25,0) {(b)};
+ 
+  \node[font=\footnotesize] at (5.65,0) {$\equiv$};
+  \sorgentepura{6.1,-0.34}{$\hat z\!\uparrow$}
+  \draw[ray] (7.08,0) -- (7.8,0);
+\end{scope}
+ 
+\end{tikzpicture}
+\caption[Costruzione di una sorgente pura]{%
+\textbf{(a)} Il fascio uscente dal forno si ripartisce equamente fra i due
+canali. \textbf{(b)} Bloccando il canale inferiore si ottiene un fascio che,
+rianalizzato lungo $\hat{z}$, esce interamente dal canale superiore: è la
+sorgente pura lungo $\hat{z}\!\uparrow$, per la quale adottiamo il simbolo
+compatto a destra.}
+\label{fig:sorgente-pura}
+\end{figure}
+ 
+ 
+\subsection{La sequenza $z \to x \to z$}
+ 
+Prendiamo una sorgente pura lungo $\hat{z}\!\uparrow$ e analizziamola con apparati orientati lungo assi diversi.
+ 
+\begin{enumerate}
+    \item Con un apparato lungo $\hat{z}$ ritroviamo quanto appena visto: il $100\%$ degli atomi esce dal canale superiore.
+ 
+    \item Con un apparato lungo $\hat{x}$ il fascio si ripartisce equamente, nella proporzione $50\%$--$50\%$: la selezione operata lungo $\hat{z}$ non privilegia in alcun modo uno dei due canali lungo $\hat{x}$.
+ 
+    \item Blocchiamo ora il canale $\hat{x}\!\downarrow$ e mandiamo il solo fascio $\hat{x}\!\uparrow$ in un terzo apparato, orientato di nuovo lungo $\hat{z}$. Otteniamo ancora una ripartizione $50\%$--$50\%$, cioè il $25\%$ e il $25\%$ degli atomi entrati nel secondo apparato.
+\end{enumerate}
+ 
+Il terzo risultato va confrontato con il primo. Se al posto dell'apparato lungo $\hat{x}$ ne inseriamo uno lungo $\hat{z}$, il fascio prosegue indisturbato e l'apparato finale raccoglie il $100\%$ degli atomi nel canale superiore; inserendo invece l'apparato lungo $\hat{x}$ e bloccandone un canale, l'apparato finale raccoglie metà degli atomi nel canale superiore e metà in quello inferiore.
+ 
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[sgstyle]
+ 
+% --- (a)
+\begin{scope}[shift={(0,2.5)}]
+  \sorgentepura{0,-0.34}{$\hat z\!\uparrow$}
+  \draw[ray] (0.98,0) -- (1.75,0);
+  \node[sg] at (2.16,0) {$\hat z$};
+  \draw[ray] (2.57,0) -- (3.6,0.45);
+  \draw[ray] (2.57,0) -- (3.6,-0.45);
+  \node[lbl, anchor=west] at (3.65,0.45)  {$100\%$};
+  \node[lbl, anchor=west] at (3.65,-0.45) {$0\%$};
+  \node[anchor=east, font=\footnotesize] at (-0.25,0) {(a)};
+\end{scope}
+ 
+% --- (b)
+\begin{scope}[shift={(0,0.9)}]
+  \sorgentepura{0,-0.34}{$\hat z\!\uparrow$}
+  \draw[ray] (0.98,0) -- (1.75,0);
+  \node[sg] at (2.16,0) {$\hat x$};
+  \draw[ray] (2.57,0) -- (3.6,0.45);
+  \draw[ray] (2.57,0) -- (3.6,-0.45);
+  \node[lbl, anchor=west] at (3.65,0.45)  {$50\%$};
+  \node[lbl, anchor=west] at (3.65,-0.45) {$50\%$};
+  \node[anchor=east, font=\footnotesize] at (-0.25,0) {(b)};
+\end{scope}
+ 
+% --- (c)
+\begin{scope}[shift={(0,-1.1)}]
+  \sorgentepura{0,-0.34}{$\hat z\!\uparrow$}
+  \draw[ray] (0.98,0) -- (1.75,0);
+  \node[sg] at (2.16,0) {$\hat x$};
+  \draw[ray] (2.57,0) -- (3.55,0.5);
+  \draw[ray] (2.57,0) -- (3.35,-0.4);
+  \draw[stop] (3.42,-0.58) -- (3.42,-0.24);
+  \node[lbl, anchor=south] at (3.45,0.52) {$50\%$};
+  \draw[ray] (3.55,0.5) -- (4.25,0.5);
+  \node[sg] at (4.66,0.5) {$\hat z$};
+  \draw[ray] (5.07,0.5) -- (6.0,0.92);
+  \draw[ray] (5.07,0.5) -- (6.0,0.08);
+  \node[lbl, anchor=west] at (6.05,0.92) {$25\%$};
+  \node[lbl, anchor=west] at (6.05,0.08) {$25\%$};
+  \node[anchor=east, font=\footnotesize] at (-0.25,0) {(c)};
+\end{scope}
+ 
+\end{tikzpicture}
+\caption[Sequenza $z \to x \to z$]{%
+Analisi di una sorgente pura lungo $\hat{z}\!\uparrow$.
+\textbf{(a)} Un apparato lungo $\hat{z}$ lascia passare tutti gli atomi dal
+canale superiore. \textbf{(b)} Un apparato lungo $\hat{x}$ ripartisce il fascio
+equamente. \textbf{(c)} Selezionando $\hat{x}\!\uparrow$ e rianalizzando lungo
+$\hat{z}$, le percentuali sono riferite al fascio entrante nel primo apparato.}
+\label{fig:sequenza-zxz}
+\end{figure}
+ 
+ 
+\subsection{Ricombinazione dei fasci}
+ 
+Negli esperimenti precedenti uno dei due canali veniva sempre bloccato.
+Costruiamo ora un dispositivo che li conservi entrambi: un apparato orientato lungo $\hat{x}$ separa il fascio nei due canali, che vengono fatti proseguire per un tratto senza essere né intercettati né rivelati, e un secondo apparato identico al primo ma di gradiente invertito li riporta a sovrapporsi in un unico fascio. 
+Il fascio ricombinato viene infine analizzato con un apparato lungo $\hat{z}$.
+ 
+Il risultato è che il $100\%$ degli atomi esce dal canale superiore e nessuno da quello inferiore, \emph{esattamente come se i due apparati lungo $\hat{x}$ non ci fossero}. 
+In particolare non si osserva la ripartizione $50\%$--$50\%$ che si otteneva bloccando uno dei due canali.
+ 
+\subsection{Ricombinazione dei fasci con osservatore}
+ 
+Ripetiamo l'esperimento precedente aggiungendo, lungo uno dei due cammini separati, un dispositivo in grado di rivelare il passaggio dell'atomo e di registrare quale dei due cammini esso abbia percorso; chiamiamolo osservatore\mkeyword{osservatore}. Nessuno dei due fasci viene bloccato, e l'intensità complessiva in uscita non cambia.
+ 
+L'apparato finale lungo $\hat{z}$ raccoglie ora $50\%$ degli atomi nel canale superiore e $50\%$ in quello inferiore. Vale anche l'implicazione inversa: se osserviamo una ripartizione $50\%$--$50\%$ possiamo concludere che lungo i cammini era presente un osservatore.
+ 
+Due osservazioni completano il quadro.
+ 
+\begin{itemize}
+    \item Ciò che conta è che il dispositivo \emph{lasci traccia} del cammino percorso. Un apparato che interagisce con gli atomi senza registrare alcuna informazione su quale cammino sia stato seguito non altera il risultato, e si continua a raccogliere il $100\%$ degli atomi nel canale superiore.
+ 
+    \item Non è la misura in sé a modificare l'esito, ma il fatto che essa distingua i due cammini. Se collochiamo lo stesso rivelatore di posizione \emph{dopo} la ricombinazione, cioè fra il secondo apparato lungo $\hat{x}$ e quello lungo $\hat{z}$, dove esiste ormai un solo fascio, l'esito torna a essere $100\%$ nel canale superiore.
+\end{itemize}
+ 
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[sgstyle]
+ 
+% --- (a) senza osservatore
+\begin{scope}[shift={(0,2.1)}]
+  \sorgentepura{0,-0.34}{$\hat z\!\uparrow$}
+  \draw[ray] (0.98,0) -- (1.6,0);
+  \node[sg] at (2.01,0) {$\hat x$};
+  \draw[ray] (2.42,0) .. controls (2.9,0) and (3.0,0.62) .. (3.5,0.62)
+             -- (4.5,0.62) .. controls (5.0,0.62) and (5.1,0) .. (5.58,0);
+  \draw[ray] (2.42,0) .. controls (2.9,0) and (3.0,-0.62) .. (3.5,-0.62)
+             -- (4.5,-0.62) .. controls (5.0,-0.62) and (5.1,0) .. (5.58,0);
+  \node[sg] at (5.99,0) {$\hat x$};
+  \draw[ray] (6.4,0) -- (6.95,0);
+  \node[sg] at (7.36,0) {$\hat z$};
+  \draw[ray] (7.77,0) -- (8.65,0.42);
+  \draw[ray] (7.77,0) -- (8.65,-0.42);
+  \node[lbl, anchor=west] at (8.7,0.42)  {$100\%$};
+  \node[lbl, anchor=west] at (8.7,-0.42) {$0\%$};
+  \node[lbl, anchor=north] at (2.01,-0.45) {separa};
+  \node[lbl, anchor=north] at (5.99,-0.45) {ricombina};
+  \node[anchor=east, font=\footnotesize] at (-0.25,0) {(a)};
+\end{scope}
+ 
+% --- (b) con osservatore
+\begin{scope}[shift={(0,-1.4)}]
+  \sorgentepura{0,-0.34}{$\hat z\!\uparrow$}
+  \draw[ray] (0.98,0) -- (1.6,0);
+  \node[sg] at (2.01,0) {$\hat x$};
+  \draw[ray] (2.42,0) .. controls (2.9,0) and (3.0,0.62) .. (3.5,0.62)
+             -- (4.5,0.62) .. controls (5.0,0.62) and (5.1,0) .. (5.58,0);
+  \draw[ray] (2.42,0) .. controls (2.9,0) and (3.0,-0.62) .. (3.5,-0.62)
+             -- (4.5,-0.62) .. controls (5.0,-0.62) and (5.1,0) .. (5.58,0);
+  \draw[line width=0.7pt] (3.78,0.38) rectangle (4.22,0.86);
+  \node[lbl, anchor=south] at (4.0,0.95) {osservatore};
+  \node[sg] at (5.99,0) {$\hat x$};
+  \draw[ray] (6.4,0) -- (6.95,0);
+  \node[sg] at (7.36,0) {$\hat z$};
+  \draw[ray] (7.77,0) -- (8.65,0.42);
+  \draw[ray] (7.77,0) -- (8.65,-0.42);
+  \node[lbl, anchor=west] at (8.7,0.42)  {$50\%$};
+  \node[lbl, anchor=west] at (8.7,-0.42) {$50\%$};
+  \node[anchor=east, font=\footnotesize] at (-0.25,0) {(b)};
+\end{scope}
+ 
+\end{tikzpicture}
+\caption[Ricombinazione dei fasci]{%
+\textbf{(a)} I due canali non vengono bloccati ma ricombinati da un secondo
+apparato lungo $\hat{x}$: l'analisi finale lungo $\hat{z}$ restituisce il
+$100\%$ degli atomi nel canale superiore, come se i due apparati non ci fossero.
+\textbf{(b)} Inserendo lungo uno dei cammini un dispositivo che registri quale
+di essi sia stato percorso, l'analisi finale dà $50\%$--$50\%$.}
+\label{fig:ricombinazione}
+\end{figure}
+
+\section{Interpretazione dei risultati}
+
+Riportiamo in forma compatta ciò che abbiamo analizzato nei diversi esperimenti. Ogni stern-gerlach è orientato in un direzione $\hat{n}$ a scelta e chiamiamo le due uscite $+$ e $-$. 
+
+
+\begin{enumerate}
+    \item Qualunque sia $\hat{n}$, le uscite sono sempre due e la separazione ha sempre la stessa ampiezza. 
+    \item Prendendo l'uscita $+$ e rimandandola in un altro filtro $\hat{n}$ otteniamo un altro fascio $+$. 
+    \item Con il fascio appena uscito dal forno, qualunque $\hat n$ dà $50/50$. Non esiste alcuna direzione privilegiata nello spazio.
+    \item 
+\end{enumerate}
+
+
+
+
+
+

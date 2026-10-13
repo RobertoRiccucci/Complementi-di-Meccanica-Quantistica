@@ -1,0 +1,47 @@
+# --- Cartella di build: si tiene solo il PDF finale ---
+build/*
+!build/*.pdf
+
+# Cartella creata per errore da LaTeX Workshop (variabile %OUTDIR% non espansa)
+%OUTDIR%/
+
+# --- File ausiliari LaTeX (ovunque si trovino) ---
+*.aux
+*.log
+*.toc
+*.lof
+*.lot
+*.out
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.synctex(busy)
+*.synctex
+*.bbl
+*.bcf
+*.blg
+*.run.xml
+*.nav
+*.snm
+*.vrb
+*.idx
+*.ilg
+*.ind
+*.glo
+*.gls
+*.glg
+*.ist
+*.xdv
+*.dvi
+*.listing
+*.maf
+*.mtc*
+*.thm
+_minted*/
+
+# --- Sistema operativo / editor ---
+.DS_Store
+._*
+.vscode/
+*.swp
+*~

@@ -37,13 +37,15 @@ Se la particella attraversa un campo magnetico non omogeneo, la forza a un'estre
 \begin{equation}
     E_m(\mathbf{r}) = - \mathbf{\mu} \cdot \mathbf{B}(\mathbf{r}) \implies \mathbf{F} = - \nabla E_m(\mathbf{r}) = \nabla (\mathbf{\mu} \cdot \mathbf{B}(\mathbf{r}))
 \end{equation}
-Se consideriamo un campo magnetico non omogeneo che però ha solo componente lungo un asse (che scegliamo essere quello delle $z$) $\mathbf{B} = (0, 0, B_z)$, la relazione scritta sopra diventa 
+Consideriamo un campo diretto prevalentemente lungo un asse, che scegliamo
+essere quello delle $z$, e disomogeneo lungo lo stesso asse. Resta
 %
 \begin{equation}
-    \mathbf{F} = \nabla(\mathbf{\mu} \cdot B_z \ \hat{z}) = \mu_z \frac{\partial B_z}{\partial z} \ \hat{z}
+    F_z \simeq \mu_z \frac{\partial B_z}{\partial z}
 \end{equation}
-Quindi le particelle sono deflesse verso l'alto o verso il basso in base alla direzione del momento angolare intrinseco. 
-
+%
+Quindi le particelle sono deflesse verso l'alto o verso il basso a seconda del
+segno di $\mu_z$.
 Andiamo adesso a costruire uno strumento in grado di generare un campo magnetico fortemente disomogeneo nella regione attraversata dal fascio.\\
 L'apparato si compone di quattro elementi in sequenza:
 %
@@ -492,16 +494,101 @@ di essi sia stato percorso, l'analisi finale dà $50\%$--$50\%$.}
 
 Riportiamo in forma compatta ciò che abbiamo analizzato nei diversi esperimenti. Ogni stern-gerlach è orientato in un direzione $\hat{n}$ a scelta e chiamiamo le due uscite $+$ e $-$. 
 
-
 \begin{enumerate}
     \item Qualunque sia $\hat{n}$, le uscite sono sempre due e la separazione ha sempre la stessa ampiezza. 
     \item Prendendo l'uscita $+$ e rimandandola in un altro filtro $\hat{n}$ otteniamo un altro fascio $+$. 
     \item Con il fascio appena uscito dal forno, qualunque $\hat n$ dà $50/50$. Non esiste alcuna direzione privilegiata nello spazio.
-    \item 
+    \item Preparando un filtro $\hat{n}$, prendendo l'uscita $+$ e mandandola in un filtro $\hat{m}$ con angolo $\theta$ fra i due assi si misura 
+    \begin{equation}
+      \frac{I_+}{I_{\text{tot}}} = \cos^2 \frac{\theta}{2}
+    \end{equation}
+    In particolare per $\theta = 90^{\circ}$ si ottiene che il rapporto è $1/2$.
+    \item I filtri non commutano.
+    \item Lo sdoppiamento è reversibile se lungo l'apparato di ricollimazione non si osserva nulla. 
+    \item L’informazione sul cammino distrugge tutto. Se si considera lo stesso dispositivo ma si mette un rivelatore che registri quale cammino è stato percorso, senza bloccare nulla, il filtro $z$ finale dà $50/50$, a intensità piena.
 \end{enumerate}
 
+\subsection{Conclusioni} 
 
+Dai dati osservati allora si possono fare le seguenti conclusioni. 
 
+\begin{enumerate}[label =\Roman*]
+  \item \emph{Esiste una proprietà a due valori e vive sulle direzioni}. Da 1) e 3) si conclude che non c’è una “quantità orientata” con un suo asse, perché ogni direzione che si sceglie si comporta allo stesso modo.
+  \item \emph{Domande lungo direzioni diverse non sono simultaneamente ponibili}. Dalla 5) si sa che se il sistema portasse con sé una risposta per ogni direzione, fissata e indisturbata, il terzo filtro dovrebbe ridare $100\%$.
+  \item \emph{Uno stato preparato è individuato da una direzione}. 
+  \item \emph{Due stati sono perfettamente distinguibili quando le direzioni sono opposte}. Da 4) con $\theta=180^{\circ}$: probabilità zero.
+  \item \emph{Lo sdoppiamento non è una suddivisione della popolazione}. Da 6) si ha che se dopo il magnete $z$ il fascio fosse “metà atomi del tipo $+z$, metà del tipo $-z$”, allora riunirli rimetterebbe insieme due popolazioni, e l’informazione su $x$ — che quelle due popolazioni, prese separatamente, non hanno — resterebbe persa. Invece torna intatta.
+  \item \emph{La distruzione non è dovuta alla separazione ma all'informazione}. Nel punto 6) e 7) abbiamo lo stesso dispositivo, stessa intensità, stessa meccanica: cambia solo che esiste da qualche parte un registro di quale cammino. Questo basta a distruggere l'informazione. 
+\end{enumerate}
 
+\subsection{Inferenza della necessità degli assiomi}
 
+A partire dalle concluisioni ottenute è chiaro che la meccanica classica non è sufficiente a spiegare questi fenomeni, è allora necessario svillupare un nuovo strumento, la Meccanica Quantistica.
 
+Per andare a porre le basi di questo nuovo strumento sfruttiamo le conclusioni dell'esperimento. 
+
+\subsection*{Struttura lineare}
+
+Si deve rappresentare uno stato con un oggetto che si spezza in due parti e si ricompone esattamente. Non “si divide in due sottopopolazioni”, ma proprio si decompone e si risomma.
+
+L’unica struttura matematica in cui decomporre e ricomporre è esatto e senza perdita è uno spazio vettoriale: lo stato è una somma di componenti lungo i due cammini, e la ricombinazione è letteralmente l’addizione. 
+
+\subsection*{Numeri complessi}
+
+Siano $(c_+,c_-)$ i due numeri associati alle due uscite del filtro. Resta da stabilire di che tipo di numeri si tratti, e a rispondere basta un conteggio di parametri.
+
+Due vincoli sono già fissati: la normalizzazione, perché nessun atomo viene perso, e l'irrilevanza di un fattore moltiplicativo comune a entrambe le ampiezze, che moltiplicherebbe tutte le intensità per lo stesso numero senza alcun effetto osservabile.
+
+Se le ampiezze fossero reali avremmo due numeri meno la normalizzazione, cioè un solo parametro libero: una circonferenza. Il fattore globale, in questo caso un semplice segno, non ne toglie alcuno, essendo un'identificazione discreta e non una famiglia continua. Ma dalla conclusione III gli stati preparabili sono in corrispondenza con le direzioni dello spazio, cioè con una \emph{sfera}, che di parametri ne richiede due. Con ampiezze reali non riusciremmo a distinguere uno stato preparato lungo $\hat{y}$ da uno preparato lungo $\hat{x}$, mentre sperimentalmente li distinguiamo senza difficoltà.
+
+Se le ampiezze sono complesse abbiamo invece quattro numeri reali meno la normalizzazione, e in più il fattore globale è ora una fase $e^{i\alpha}$, cioè una famiglia continua che toglie un ulteriore parametro: ne restano esattamente due.
+
+Lo spazio degli stati di un singolo filtro è dunque $\mathbb{C}^2$.
+
+\subsection*{Prodotto scalare}
+
+Serve una regola che da $(c_+, c_-)$ si deducano le probabilità. \\ 
+Inoltre la somma deve fare 1 e restare 1 sotto le operazioni reversibili di 6), perché non si perdono atomi.
+
+La forma quadratica definita positiva che soddisfa entrambi è $|c_\pm|^2$, da cui $|c_+|^2+|c_-|^2=1$. Questo introduce il prodotto scalare hermitiano, e con esso la norma.
+
+\subsection*{Operatori Hermitiani}
+
+Che cosa è, sperimentalmente, “il filtro $\hat{n}$”:
+\begin{itemize}
+  \item due esiti, etichettati da due numeri reali (ciò che leggi: la deflessione, e quindi $\pm\hbar/2$);
+  \item due stati che danno quei due esiti con certezza;
+  \item quei due stati sono perfettamente distinguibili, cioè uno dà probabilità zero per l’esito dell’altro, e quindi hanno prodotto scalare nullo: sono ortogonali;
+  \item ogni altro stato si decompone su quei due, quindi formano una base.
+\end{itemize}
+
+Quindi un filtro è esattamente: una base ortonormale di $\mathbb C^2$, più due numeri reali. L’oggetto matematico che contiene precisamente questa informazione, e nient’altro, è
+
+$$\hat A = \sum_i \lambda_i\,|e_i\rangle\langle e_i|,\qquad \lambda_i\in\mathbb R,\quad \{|e_i\rangle\}\ \text{ortonormale}$$
+
+cioè, per il teorema spettrale, un operatore hermitiano. 
+
+Un altro fattore che suggerisce la natura da operatori dei filtri è la non commutatività.%\footnote{Fino ad ora abbiamo spiegato la necessità degli elementi nell'assioma 1 e assioma 2, tuttavia la spiegazione per l'assioma 3 è molto meno banale e per cui si consiglia di guardare \emph{Modern Quantum Mechanic} di J.J. Sakurai.}
+
+\subsection*{Valori medi}
+
+Gli assiomi 1 e 2 fissano lo spazio degli stati e i valori che una misura può
+restituire, ma non collegano ancora lo stato alle frequenze osservate. La regola
+mancante l'abbiamo però già ricavata: detta $\{\ket{e_n}\}$ la base associata al
+filtro, le ampiezze sono $c_n = \braket{e_n|\psi}$ e la sezione precedente ha
+mostrato che le probabilità sono $P_n = |\braket{e_n|\psi}|^2$. Il valor medio è
+allora la definizione ordinaria di valore atteso, e usando la rappresentazione
+spettrale dell'assioma 2
+%
+\begin{equation}
+    \sum_n \lambda_n P_n
+    = \sum_n \lambda_n \braket{\psi|e_n}\braket{e_n|\psi}
+    = \Braket{\psi|\hat{O}|\psi}
+\end{equation}
+%
+Conviene enunciare l'assioma sui valori medi perché questo contiene già le
+probabilità: applicandolo al proiettore $\hat{P}_n = \ket{e_n}\bra{e_n}$ si
+ottiene $\langle P_n \rangle = P_n$.\footnote{A differenza dei primi due, questo
+assioma non è imposto dagli esperimenti, che forniscono le sole frequenze. Il
+teorema di Gleason (1957) mostra però che in dimensione maggiore o uguale a $3$
+esso non è indipendente dagli altri due.}

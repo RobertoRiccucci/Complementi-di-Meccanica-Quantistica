@@ -1,93 +1,252 @@
-\chapter{Oscillatore Armonico: soluzione analitica}
+\chapter{Sistemi composti}
 
-Consideriamo un oscillatore armonico quantistico unidimensionale, il cui hamiltoniano è esprimibile nella forma 
-% 
+Questo capitolo è dedicato alla formalizzazione degli strumenti necessari alla descrizione di sistemi quantistici interagenti. \\
+L'obiettivo è mostrare come la descrizione di un sistema composto non possa prescindere dalle correlazioni fra i sottosistemi: lo stato del sistema globale è qualcosa di più della coppia degli stati dei suoi sottosistemi.
+
+In realtà questo argomento è trattato in \cite{Ballentine}, in particolare si trova nelle sezioni $§3.5$ e $§8.3$, tuttavia ho deciso di riportarlo anche qui in modo da trovarlo unificato e formalizzato e con alcuni approfondimenti presi da \cite{NielsenChuang}. \\
+
+\section{Prodotto Tensore}
+
+Consideriamo un sistema formato da due componenti. Se è possibile preparare stati delle due componenti \emph{indipendentemente l'una dall'altra}, allora deve essere possibile descriverne una senza riferirsi all'altra, e la descrizione del sistema combinato deve essere compatibile con quelle separate\footnote{Si noti che non stiamo assumendo che le due componenti non interagiscano: l'ipotesi riguarda la \emph{preparabilità congiunta}, non la dinamica. L'hamiltoniana può contenere termini di accoppiamento senza che nulla di quanto segue cambi.}.\\
+Questo vuol dire che a partire dagli spazi di Hilbert $\mathcal{H}_1$ e $\mathcal{H}_2$ delle componenenti separate è possibile ricavare lo spazio di Hilbert $\mathcal{H}$ del sistema combinato. Per far questo andiamo a introdurre il prodotto tensore\mkeyword{prodotto tensore}. \\
+
+Presi due spazi vettoriali $V$ e $W$, rispettivamente di dimensione $d_V$ e $d_W$, il \emph{prodotto tensore} è una coppia costituita da uno spazio vettoriale $V \otimes W$ e da un'applicazione $\otimes : V \times W \to V \otimes W$ tale che
+
+\begin{enumerate}
+    \item $\otimes$ è bilineare;
+    \item la sua immagine genera lo spazio, cioè $V \otimes W = \operatorname{span}\{\ket{v} \otimes \ket{w}\}$;
+    \item $\dim (V \otimes W) = d_V \, d_W$.
+\end{enumerate}
+
+Solitamente useremo la notazione $\ket{v, w}$ per indicare il prodotto tensore $\ket{v} \otimes \ket{w}$. 
+
+Per definizione il prodotto tensore soddisfa le seguenti proprietà fondamentali:
+%
+\begin{enumerate}[label=(\arabic*)]
+    \item Per uno scalare arbitrario $z$ e per elementi $\ket{v}$ di $V$ e $\ket{w}$ di $W$,
+    %
+    \begin{equation}
+        z \bigl( \ket{v} \otimes \ket{w} \bigr) = \bigl( z\ket{v} \bigr) \otimes \ket{w} = \ket{v} \otimes \bigl( z\ket{w} \bigr)
+        \label{eq:tensore-scalare}
+    \end{equation}
+    %
+    \item Per $\ket{v_1}$ e $\ket{v_2}$ arbitrari in $V$ e $\ket{w}$ in $W$,
+    %
+    \begin{equation}
+        \bigl( \ket{v_1} + \ket{v_2} \bigr) \otimes \ket{w} = \ket{v_1} \otimes \ket{w} + \ket{v_2} \otimes \ket{w}
+        \label{eq:tensore-additiva-sx}
+    \end{equation}
+    %
+    \item Per $\ket{v}$ arbitrario in $V$ e $\ket{w_1}$ e $\ket{w_2}$ in $W$,
+    %
+    \begin{equation}
+        \ket{v} \otimes \bigl( \ket{w_1} + \ket{w_2} \bigr) = \ket{v} \otimes \ket{w_1} + \ket{v} \otimes \ket{w_2}
+        \label{eq:tensore-additiva-dx}
+    \end{equation}
+    %
+\end{enumerate}
+
+In particolare, se $\{\ket{v_n}\}_n$ e $\{\ket{w_m}\}_m$ sono basi ortonormali rispettivamente per gli spazi $V$ e $W$, è facile dimostrare che $\{\ket{v_n} \otimes \ket{w_m}\}_{n,m}$ costituisce una base per $V \otimes W$.
+
+Siano $\ket{v}$ e $\ket{w}$ vettori rispettivamente in $V$ e $W$, e siano $\hat{A}$ e $\hat{B}$ operatori lineari rispettivamente su $V$ e $W$. Allora possiamo definire un operatore lineare $\hat{A} \otimes \hat{B}$ su $V \otimes W$ mediante l'equazione
+\begin{tcolorbox}[colback=black!5!white, colframe=black!45!white, boxrule=0.8pt]
 \begin{equation}
-    \hat{H} = \frac{\hat{P}^2}{2m} + \frac{m\omega^2 \hat{Q}^2}{2}
+    (\hat{A}\otimes \hat{B}) (\ket{v} \otimes \ket{w}) \equiv \hat{A}\ket{v} \otimes \hat{B} \ket{w}
 \end{equation}
-Possiamo trovare lo spettro degli autovalori proseguendo con due approcci diversi: con un \emph{approccio algebrico} o con un \emph{approccio analitico}. 
+\end{tcolorbox}
 
-In \cite{Ballentine} sono affrontati entrambi gli approcci, tuttavia esiste un modo che semplifica notevolmente l'approccio analitico che permette di avere a che fare solo con equazioni differenziali del primo ordine (mentre altrimenti dovremmo trattare equazioni differenziali di secondo ordine). \\
-Questo metodo parte dai risultati ottenuti con l'approccio algebrico, per questo sarà necessario riportarli velocemente. 
+\subsection{Prodotto di Kronecker}
 
-Definendo l'operatore di distruzione\mkeyword{operatore di distruzione} e l'operatore di costruzione\mkeyword{operatore di costruzione} rispettivamente come 
-%
+La convenzione del prodotto tensoriale può sembrare al quanto astratta. Il discorso può diventare molto più concreto spostandosi in una più conveniente rappresentazione matriciale, nota come prodotto di Kronecker\mkeyword{prodotto di Kronecker}. Supponendo che $A$ sia una matrice $m \times n$ e $B$ sia una matrice $p \times q$, allora abbiamo che vale
+
 \begin{equation}
-\label{eq:cost_distr}
-    \hat{a} = \frac{1}{\sqrt{2}} \left( \frac{\hat{Q}}{l_{\omega}} + i \frac{\hat{P}}{p_{\omega}} \right) \quad , \quad \hat{a}^{\dagger} = \frac{1}{\sqrt{2}} \left( \frac{\hat{Q}}{l_{\omega}} - i \frac{\hat{P}}{p_{\omega}} \right)
-\end{equation}
-E definendo $\{\ket{n} : \ n\in \mathbb{N} \cup \{ 0 \}\}$ l'insieme degli autostati di $\hat{H}$ si ha che valgono le seguenti relazioni
-%
-\begin{align}
-    \hat{a} \ket{0} &= 0 \label{eq:prima_rel}\\
-    \ket{n} &= \frac{1}{\sqrt{n!}}(\hat{a}^{\dagger})^n \ket{0}
-    \label{eq:relazione_creaz_distr}
-\end{align}
-La prima servirà per trovare $\psi_0 (x)$ mentre la seconda sarà necessaria per ricavare $\psi_n(x)$. 
-
-Vale infatti
-%
-\begin{align}
-    \Braket{x|\hat{a}|0} &= \frac{1}{\sqrt{2}}\Braket{x|\frac{\hat{Q}}{l_{\omega}} + i l_{\omega} \frac{\hat{P}}{\hbar}|0} \\
-    &= \frac{1}{\sqrt{2}}\left( \frac{x}{l_{\omega}} + l_{\omega} \partial_x \right) \psi_0(x) = 0
-\end{align}
-Dove abbiamo usato la prima relazione, riscrivendo $\hat{Q}$ e $\hat{P}$ in coordinate. Inoltre abbiamo usato $l_{\omega} \cdot p_{\omega} = \hbar$.
-
-Risolvendo l'equazione differenziale con il metodo delle variabili separabili si ottiene 
-%
-\begin{equation*}
-    \psi_0(x) = A e^{- \frac{x^2}{2 l_{\omega}^2}}
-\end{equation*}
-Il valore di $A$ si trova con la normalizzazione 
-%
-\begin{align*}
-    \int_{-\infty}^{\infty} dx \ |\psi_0(x)|^2 = A^2 \int_{-\infty}^{\infty} dx \ e^{-\frac{x^2}{l_{\omega}^2}} = A^2 \ \sqrt{\pi l_{\omega}^2} = 1 \implies A = \frac{1}{l_{\omega}^{1/2}\pi^{1/4}}
-\end{align*}
-%
-Quindi si ha 
-%
-\begin{equation}
-\label{eq:psi_0}
-    \psi_0(x) = \frac{1}{l_{\omega}^{1/2}\pi^{1/4}} e^{- \frac{x^2}{2 l_{\omega}^2}}
+    A \otimes B \equiv
+    \overbrace{%
+      \begin{bmatrix}
+        A_{11}B & A_{12}B & \ldots & A_{1n}B \\
+        A_{21}B & A_{22}B & \ldots & A_{2n}B \\
+        \vdots  & \vdots  & \vdots & \vdots  \\
+        A_{m1}B & A_{m2}B & \ldots & A_{mn}B
+      \end{bmatrix}
+    }^{nq}
+    \left.\vphantom{%
+      \begin{bmatrix}
+        A_{11}B \\ A_{21}B \\ \vdots \\ A_{m1}B
+      \end{bmatrix}
+    }\right\} mp
+    \label{eq:kronecker}
 \end{equation}
 
-Adesso grazie alla relazione \eqref{eq:relazione_creaz_distr} possiamo ricavare $\psi_n(x) \ , \forall n \ \in \mathbb{N} \cup \{ 0 \}$. Ricaveremo solo $\psi_1(x)$ per poi dare una formula generale per $\psi_n(x)$, tuttavia sarebbe possibile ricavare ogni $\psi_n(x)$ con un metodo del tutto analogo. 
-%
-\begin{align}
-    \psi_1(x) = \Braket{x|1} = \Braket{x|\hat{a}^{\dagger}|0} &= \frac{1}{\sqrt{2}}\Braket{x|\frac{\hat{Q}}{l_{\omega}} - i l_{\omega} \frac{\hat{P}}{\hbar}|0}\\
-    &= \frac{1}{\sqrt{2}} \left( \frac{x}{l_{\omega}} - l_{\omega} \partial_x \right) \psi_0(x)
-\end{align}
-Adesso sostituendo \eqref{eq:psi_0} e derivando si ottiene 
-%
-\begin{equation}
-    \psi_1(x) = \left( \frac{2}{\pi^{1/2}l_{\omega}^3} \right)^{1/2} x \ e^{-\frac{x^2}{2 l_{\omega}^2}}
-\end{equation}
-Potremmo svolgere un processo simile per ricavare $\psi_n(x)$, una formula generale è però 
+In questa rappresentazione, termini come $A_{11}B$ indicano sottomatrici di dimensioni $p \times q$ i cui elementi sono proporzionali a $B$, con una costante di proporzionalità complessiva pari ad $A_{11}$.
+
+\section{Matrici densità di un sistema composto}
+
+Nella sezione precedente abbiamo costruito lo spazio di Hilbert $\mathcal{H} = \mathcal{H}_1 \otimes \mathcal{H}_2$ del sistema composto. 
+
+Adesso non ci resta che capire come lo stato del sistema globale sia influenzato dagli stati dei sistemi scomposti.\\
+Introduciamo l'insieme dei possibili stati di un sistema come\mkeyword{insieme degli stati}
 %
 \begin{tcolorbox}[colback=black!5!white, colframe=black!45!white, boxrule=0.8pt]
 \begin{equation}
-    \psi_n(x) = \left( \frac{1}{\pi^{1/2} l_{\omega} 2^n n!} \right)^{1/2} H_n\left(\frac{x}{l_{\omega}}\right) \ \text{exp}\left( -\frac{x^2}{2 l_{\omega}^2} \right)
+    \mathfrak{S}(\mathcal{H}) = \{ \hat{\rho} \in \mathcal{L}(\mathcal{H}) \ ; \ \text{tr}(\hat{\rho}) = 1 \ , \ \hat{\rho} \geq 0 \ , \ \hat{\rho} = \hat{\rho}^{\dagger}\} \subset \mathcal{L}(\mathcal{H})
 \end{equation}
 \end{tcolorbox}
-Dove si sono introdotti i polinomi di Hermite\mkeyword{polinomi di Hermite}:
-\begin{equation}
-    H_n(y) = e^{y^2/2} \left( y - \frac{d}{dy} \right)^n e^{-y^2/2}
-\end{equation}
+dove $\mathcal{L}(\mathcal{H})$ è l'insieme degli operatori lineari sullo spazio di Hilbert $\mathcal{H}$.\\
+Fissate due basi ortonormali $\{ \ket{a_m} \}$ di $\mathcal{H}_1$ e $\{ \ket{b_n} \}$ di $\mathcal{H}_2$ un generico $\hat{\rho} \in \mathfrak{S}(\mathcal{H})$ è individuato dai suoi elementi di matrice $\braket{a_m, b_n|\hat{\rho}|a_{m'}, b_{n'}}$ sulla base prodotto. 
 
-\section{Base degli impulsi}
-Nei passaggi precedenti abbiamo deciso di trovare gli autostati dell'hamiltoniano in coordinate, tuttavia possiamo farlo in modo del tutto analogo anche usando come base gli autostati dell'operatore impulso. 
+\newpage
 
-Sfruttiamo, come prima, la \eqref{eq:prima_rel} per ottenere $\tilde{\psi}_0(p)$, l'unica cosa è che adesso usiamo $\bra{p}$ invece di $\bra{x}$
-%
+\subsection{Traccia parziale e stati ridotti}
+
+Consideriamo un osservabile che appartenga \emph{esclusivamente} al primo sottosistema. Il suo operatore allora avrà la forma $\hat{R} \otimes \hat{\mathds{1}}$, il suo valor medio è 
 \begin{align}
-    \Braket{p|\hat{a}|0} &= \frac{1}{\sqrt{2}}\Braket{p|p_{\omega}\frac{\hat{Q}}{\hbar} + i \frac{\hat{P}}{p_{\omega}}|0} \\
-    &= \frac{1}{\sqrt{2}}\left( i p_{\omega} \partial_p +  i \frac{p}{p_{\omega}}\right) \tilde{\psi}_0(p) = 0
+    \bigl\langle \hat{R} \otimes \hat{\mathds{1}} \bigr\rangle
+    &= \operatorname{tr} \bigl[ \hat{\rho} \, (\hat{R} \otimes
+       \hat{\mathds{1}}) \bigr] \nonumber \\
+    &= \sum_{m,n} \sum_{m',n'}
+       \braket{a_m, b_n | \hat{\rho} | a_{m'}, b_{n'}}
+       \braket{a_{m'}, b_{n'} | \hat{R} \otimes \hat{\mathds{1}} | a_m, b_n}
+       \nonumber \\
+    &= \sum_{m,m'} \biggl( \sum_n
+       \braket{a_m, b_n | \hat{\rho} | a_{m'}, b_n} \biggr)
+       \braket{a_{m'} | \hat{R} | a_m}
+    \label{eq:media-locale}
 \end{align}
-Risolvendo l'equazione differenziale e imponendo la normalizzazione si ha 
+dove nell'ultimo passaggio si è usato $\braket{a_{m'}, b_{n'} | \hat{R} \otimes \hat{\mathds{1}} | a_m, b_n} = \braket{a_{m'} | \hat{R} | a_m} \, \delta_{n'n}$.
+
+Il punto notevole è che la quantità fra parentesi dipende solo da $\hat{\rho}$ e non da $\hat{R}$: definisce un operatore su $\mathcal{H}_1$ che contiene tutta l'informazione necessaria a calcolare le medie locali. Lo chiamiamo \emph{matrice densità ridotta}\mkeyword{matrice densità ridotta}, e l'operazione che lo produce \emph{traccia parziale}\mkeyword{traccia parziale}.
+%
+\begin{tcolorbox}[colback=black!5!white, colframe=black!45!white, boxrule=0.8pt]
 \begin{equation}
-    \tilde{\psi}_0(p) = \frac{1}{p_{\omega}^{1/2} \pi^{1/4}} e^{-\frac{p^2}{2 p_{\omega}^2}}
+    \hat{\rho}^{(1)} \equiv \operatorname{tr}_2 \hat{\rho} \quad , \quad \braket{a_m | \hat{\rho}^{(1)} | a_{m'}} = \sum_n \braket{a_m, b_n | \hat{\rho} | a_{m'}, b_n}
+    \label{eq:traccia-parziale}
 \end{equation}
-Allora è facile intuire che anche le altre funzioni d'onda saranno analoghe al caso precedente e basterà effettuare lo scambio $x \to p$ e $l_{\omega} \to p_{\omega}$
+\end{tcolorbox}
+%
+e analogamente $\hat{\rho}^{(2)} = \operatorname{tr}_1 \hat{\rho}$, sommando sull'indice del primo sottosistema. Con questa definizione la \eqref{eq:media-locale} si scrive
+%
 \begin{equation}
-    \tilde{\psi}_n(p) = \left( \frac{1}{\pi^{1/2} p_{\omega} 2^n n!} \right)^{1/2} H_n\left(\frac{p}{p_{\omega}}\right) \ \text{exp}\left( -\frac{p^2}{2 p_{\omega}^2} \right)
+    \bigl\langle \hat{R} \otimes \hat{\mathds{1}} \bigr\rangle
+    = \operatorname{tr}_1 \bigl( \hat{\rho}^{(1)} \hat{R} \bigr)
+    \label{eq:media-ridotta}
 \end{equation}
+%
+che è formalmente identica alla regola per un sistema singolo.
+
+In particolare è possibile dimostrare\footnote{Basta verificare le tre condizioni: $\text{tr}_1(\hat{\rho}^{(1)}) = 1 \ , \ \hat{\rho}^{(1)} = \hat{\rho}^{(1)\dagger} \ , \ \hat{\rho}^{(1)} \geq 0$} che se $\hat{\rho} \in \mathfrak{S}(\mathcal{H})$, allora $\hat{\rho}_1 \in \mathfrak{S}(\mathcal{H}_1)$, cioè $\hat{\rho}_1$ è un vero e proprio stato del primo sistema scomposto. 
+
+\subsection{Decomposizione di uno stato generico}
+
+Disponendo delle due ridotte, è naturale chiedersi se esse determinino $\hat{\rho}$. La risposta è negativa, e conviene spiegarla. 
+
+Introduciamo sullo spazio degli operatori il prodotto scalare di Hilbert--Schmidt\mkeyword{prodotto di Hilbert--Schmidt}
+%
+\begin{equation}
+    \bigl( \hat{A}, \hat{B} \bigr)_{\mathrm{HS}} \equiv
+    \operatorname{tr} \bigl( \hat{A}^\dagger \hat{B} \bigr)
+    \label{eq:hilbert-schmidt}
+\end{equation}
+%
+e scegliamo in $\mathcal{L}_{\mathrm{h}}(\mathcal{H}_1)$ una base ortonormale $\{\hat{\tau}^{(1)}_\mu\}_{\mu = 0}^{d_1^2 - 1}$ rispetto a tale prodotto, con la convenzione
+%
+\begin{equation}
+    \hat{\tau}^{(1)}_0 = \frac{\hat{\mathds{1}}_1}{\sqrt{d_1}} \quad , \quad \operatorname{tr} \hat{\tau}^{(1)}_\mu = 0 \quad \text{per } \mu \geq 1
+    \label{eq:base-operatori}
+\end{equation}
+%
+sempre possibile, dato che gli operatori hermitiani a traccia nulla sono il complemento ortogonale dell'identità. Procediamo allo stesso modo per il secondo sottosistema.
+
+Poiché $\mathcal{L}(\mathcal{H}_1 \otimes \mathcal{H}_2) = \mathcal{L}(\mathcal{H}_1) \otimes \mathcal{L}(\mathcal{H}_2)$, i prodotti $\hat{\tau}^{(1)}_\mu \otimes \hat{\tau}^{(2)}_\nu$ formano una base ortonormale per gli operatori sul sistema composto, e ogni stato si espande in modo unico come
+%
+\begin{equation}
+    \hat{\rho} = \sum_{\mu, \nu} c_{\mu\nu} \, \hat{\tau}^{(1)}_\mu \otimes \hat{\tau}^{(2)}_\nu \quad , \quad c_{\mu\nu} = \operatorname{tr} \bigl[ \hat{\rho} \, ( \hat{\tau}^{(1)}_\mu \otimes \hat{\tau}^{(2)}_\nu ) \bigr] \in \mathbb{R}
+    \label{eq:espansione-rho}
+\end{equation}
+
+Calcoliamo ora le ridotte in questa rappresentazione. Usando $\operatorname{tr}_2 (\hat{A} \otimes \hat{B}) = \hat{A} \operatorname{tr} \hat{B}$ insieme alla \eqref{eq:base-operatori}, sopravvive il solo termine $\nu = 0$:
+%
+\begin{equation}
+    \hat{\rho}^{(1)} = \sqrt{d_2} \sum_\mu c_{\mu 0} \, \hat{\tau}^{(1)}_\mu \, \quad , \quad \hat{\rho}^{(2)} = \sqrt{d_1} \sum_\nu c_{0 \nu} \, \hat{\tau}^{(2)}_\nu
+    \label{eq:ridotte-coefficienti}
+\end{equation}
+
+Disponendo i coefficienti $c$ in una matrice, le ridotte leggono dunque soltanto la \emph{prima riga} e la \emph{prima colonna}. Tutti i coefficienti con $\mu \geq 1$ e $\nu \geq 1$ sono invisibili a entrambe: sono esattamente l'informazione che lo stato globale possiede e che la coppia degli stati parziali non registra.
+
+Il conteggio è immediato. Uno stato su $\mathcal{H}$ è individuato da $(d_1 d_2)^2 - 1$ parametri reali, le due ridotte ne portano rispettivamente $d_1^2 - 1$ e $d_2^2 - 1$, e restano
+%
+\begin{equation}
+    (d_1 d_2)^2 - 1 - (d_1^2 - 1) - (d_2^2 - 1) = (d_1^2 - 1)(d_2^2 - 1)
+    \label{eq:conteggio-correlazioni}
+\end{equation}
+%
+parametri di pura correlazione. Possiamo allora isolare la parte di $\hat{\rho}$ che le ridotte non vedono definendo l'\emph{operatore di correlazione}\mkeyword{operatore di correlazione}
+%
+\begin{tcolorbox}[colback=black!5!white, colframe=black!45!white, boxrule=0.8pt]
+\begin{equation}
+    \hat{\rho} = \hat{\rho}^{(1)} \otimes \hat{\rho}^{(2)} + \hat{\chi} \quad , \quad \operatorname{tr}_1 \hat{\chi} = \operatorname{tr}_2 \hat{\chi} = 0
+    \label{eq:decomposizione-correlazione}
+\end{equation}
+\end{tcolorbox}
+
+L'operatore $\hat{\chi}$ è hermitiano ma ha traccia nulla, per questo \emph{non} è una matrice densità. 
+
+Il significato di $\hat{\chi}$ emerge calcolando una correlazione fra osservabili locali. Detti $\hat{R}_1 = \hat{R}^{(1)} \otimes \hat{\mathds{1}}$ e $\hat{R}_2 = \hat{\mathds{1}} \otimes \hat{R}^{(2)}$,
+%
+\begin{equation}
+    \bigl\langle \hat{R}_1 \hat{R}_2 \bigr\rangle - \bigl\langle \hat{R}_1 \bigr\rangle \bigl\langle \hat{R}_2 \bigr\rangle = \operatorname{tr} \bigl[ \hat{\chi} \, ( \hat{R}^{(1)} \otimes \hat{R}^{(2)} ) \bigr]
+    \label{eq:correlazione-chi}
+\end{equation}
+%
+dunque $\hat{\chi}$ è precisamente l'operatore che trasporta tutte le correlazioni fra i due sottosistemi.
+
+\subsection{Stati non correlati}
+
+Consideriamo il caso particolare in cui $\hat{\chi}$ si \emph{annulla}. I particolari stati in cui questo avviene prendono il nome di stati non correlati\mkeyword{stato non correlato} e per questi si ha 
+%
+\begin{tcolorbox}[colback=black!5!white, colframe=black!45!white, boxrule=0.8pt]
+\begin{equation}
+    \hat{\rho} = \hat{\rho}^{(1)} \otimes \hat{\rho}^{(2)}
+\end{equation}
+\end{tcolorbox}
+
+Un'importante proprietà degli stati non correlati è che $\hat{\rho}$ è non correlato se e solo se per ogni coppia di osservabili locali $\hat{R}_1 = \hat{R}^{(1)} \otimes \hat{\mathds{1}}$ e $\hat{R}_2 = \hat{\mathds{1}} \otimes \hat{R}^{(2)}$ vale 
+%
+\begin{tcolorbox}[colback=black!5!white, colframe=black!45!white, boxrule=0.8pt]
+\begin{equation}
+    \langle \hat{R}_1 \hat{R}_2 \rangle = \langle \hat{R}_1 \rangle \langle \hat{R}_2 \rangle
+\end{equation} 
+\end{tcolorbox}
+
+Inoltre è possibile dimostrare che se $\hat{\rho} \in \mathfrak{S}(\mathcal{H})$ e si ha che la matrice densità ridotta $\hat{\rho}^{(1)}$ è uno stato puro, allora si ha che $\hat{\rho} = \hat{\rho}^{(1)} \otimes \hat{\rho}^{(2)}$. In altre parole \emph{una matrice densità ridotta pura deve essere un fattore di uno stato non correlato}. 
+
+\subsection{Decomposizione di Schmidt}
+
+Abbiamo trovato che, per un sistema composto, deve valere la \eqref{eq:decomposizione-correlazione}, tuttavia se siamo nel caso particolare in cui lo stato considerato del sistema è uno \emph{stato puro}, allora è possibile trovare una forma più stringente per lo stato in funzione degli stati dei sottosistemi. 
+
+\mkeyword{Teorema di decomposizione di Schmidt}Presi gli spazi di Hilbert $\mathcal{H}_1$ e $\mathcal{H}_2$ di dimensione rispettivamente $n$ e $m$, per cui vale $n \geq m$, per qualsiasi stato puro $\ket{\psi} \in \mathcal{H}_1 \otimes \mathcal{H}_2$, esistono insiemi di stati ortonormalizzati $\{\ket{u}_1, \dots , \ket{u}_m \} \subset \mathcal{H}_1$ e $\{\ket{v}_1, \dots , \ket{v}_m \} \subset \mathcal{H}_2$ tali per cui
+%
+\begin{tcolorbox}[colback=black!5!white, colframe=black!45!white, boxrule=0.8pt]
+\begin{equation}
+    \ket{\psi} = \sum_i^m \lambda_i \ket{u}_i \otimes \ket{v}_i \quad , \quad \sum_i \lambda_i^2 = 1
+\end{equation} 
+\end{tcolorbox}
+
+dove $\lambda_i$ sono numeri reali non negativi chiamati coefficienti di Schmidt\mkeyword{coefficienti di Schmidt}.\\
+
+Andiamo a dimostrare la validità si questo risultato (nel caso in cui $n = m$). 
+
+Siano $\{ \ket{j} \}_n$ e $\{ \ket{k} \}_n$ due generiche basi ortonormali di $\mathcal{H}_1$ e $\mathcal{H}_2$. Allora si ha che 
+%
+\begin{equation*}
+    \ket{\psi} = \sum_{jk} a_{jk} \ket{j} \otimes \ket{k}
+\end{equation*}
+Presa la matrice $a$ che ha per componeneti $a_{jk}$, la possiamo associare a una matrice diagonale $d$ formata da soli elementi positivi, ove $a = udv$. Quindi
+%
+\begin{equation*}
+    \ket{\psi} = \sum_{ijk} u_{ji} d_{ii} v_{ik} \ \ket{j} \otimes \ket{k}
+\end{equation*}
+Allora possiamo definire $\ket{u}_i \equiv \sum_j u_{ji} \ket{j}$, $\ket{v}_i \equiv \sum_i v_{ik} \ket{k}$ e $\lambda_i = d_{ii}$ e in questo modo si ha 
+\begin{equation*}
+    \ket{\psi} = \sum_i \lambda_i \ \ket{u}_i \otimes \ket{v}_i
+\end{equation*}
+e dalla normalizziazione dello stato puro si ottiene che $\sum_i \lambda_i^2 = 1$. Abbiamo quindi dimostrato la tesi. 

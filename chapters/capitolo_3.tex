@@ -1,0 +1,93 @@
+\chapter{Oscillatore Armonico: soluzione analitica}
+
+Consideriamo un oscillatore armonico quantistico unidimensionale, il cui hamiltoniano è esprimibile nella forma 
+% 
+\begin{equation}
+    \hat{H} = \frac{\hat{P}^2}{2m} + \frac{m\omega^2 \hat{Q}^2}{2}
+\end{equation}
+Possiamo trovare lo spettro degli autovalori proseguendo con due approcci diversi: con un \emph{approccio algebrico} o con un \emph{approccio analitico}. 
+
+In \cite{Ballentine} sono affrontati entrambi gli approcci, tuttavia esiste un modo che semplifica notevolmente l'approccio analitico che permette di avere a che fare solo con equazioni differenziali del primo ordine (mentre altrimenti dovremmo trattare equazioni differenziali di secondo ordine). \\
+Questo metodo parte dai risultati ottenuti con l'approccio algebrico, per questo sarà necessario riportarli velocemente. 
+
+Definendo l'operatore di distruzione\mkeyword{operatore di distruzione} e l'operatore di costruzione\mkeyword{operatore di costruzione} rispettivamente come 
+%
+\begin{equation}
+\label{eq:cost_distr}
+    \hat{a} = \frac{1}{\sqrt{2}} \left( \frac{\hat{Q}}{l_{\omega}} + i \frac{\hat{P}}{p_{\omega}} \right) \quad , \quad \hat{a}^{\dagger} = \frac{1}{\sqrt{2}} \left( \frac{\hat{Q}}{l_{\omega}} - i \frac{\hat{P}}{p_{\omega}} \right)
+\end{equation}
+E definendo $\{\ket{n} : \ n\in \mathbb{N} \cup \{ 0 \}\}$ l'insieme degli autostati di $\hat{H}$ si ha che valgono le seguenti relazioni
+%
+\begin{align}
+    \hat{a} \ket{0} &= 0 \label{eq:prima_rel}\\
+    \ket{n} &= \frac{1}{\sqrt{n!}}(\hat{a}^{\dagger})^n \ket{0}
+    \label{eq:relazione_creaz_distr}
+\end{align}
+La prima servirà per trovare $\psi_0 (x)$ mentre la seconda sarà necessaria per ricavare $\psi_n(x)$. 
+
+Vale infatti
+%
+\begin{align}
+    \Braket{x|\hat{a}|0} &= \frac{1}{\sqrt{2}}\Braket{x|\frac{\hat{Q}}{l_{\omega}} + i l_{\omega} \frac{\hat{P}}{\hbar}|0} \\
+    &= \frac{1}{\sqrt{2}}\left( \frac{x}{l_{\omega}} + l_{\omega} \partial_x \right) \psi_0(x) = 0
+\end{align}
+Dove abbiamo usato la prima relazione, riscrivendo $\hat{Q}$ e $\hat{P}$ in coordinate. Inoltre abbiamo usato $l_{\omega} \cdot p_{\omega} = \hbar$.
+
+Risolvendo l'equazione differenziale con il metodo delle variabili separabili si ottiene 
+%
+\begin{equation*}
+    \psi_0(x) = A e^{- \frac{x^2}{2 l_{\omega}^2}}
+\end{equation*}
+Il valore di $A$ si trova con la normalizzazione 
+%
+\begin{align*}
+    \int_{-\infty}^{\infty} dx \ |\psi_0(x)|^2 = A^2 \int_{-\infty}^{\infty} dx \ e^{-\frac{x^2}{l_{\omega}^2}} = A^2 \ \sqrt{\pi l_{\omega}^2} = 1 \implies A = \frac{1}{l_{\omega}^{1/2}\pi^{1/4}}
+\end{align*}
+%
+Quindi si ha 
+%
+\begin{equation}
+\label{eq:psi_0}
+    \psi_0(x) = \frac{1}{l_{\omega}^{1/2}\pi^{1/4}} e^{- \frac{x^2}{2 l_{\omega}^2}}
+\end{equation}
+
+Adesso grazie alla relazione \eqref{eq:relazione_creaz_distr} possiamo ricavare $\psi_n(x) \ , \forall n \ \in \mathbb{N} \cup \{ 0 \}$. Ricaveremo solo $\psi_1(x)$ per poi dare una formula generale per $\psi_n(x)$, tuttavia sarebbe possibile ricavare ogni $\psi_n(x)$ con un metodo del tutto analogo. 
+%
+\begin{align}
+    \psi_1(x) = \Braket{x|1} = \Braket{x|\hat{a}^{\dagger}|0} &= \frac{1}{\sqrt{2}}\Braket{x|\frac{\hat{Q}}{l_{\omega}} - i l_{\omega} \frac{\hat{P}}{\hbar}|0}\\
+    &= \frac{1}{\sqrt{2}} \left( \frac{x}{l_{\omega}} - l_{\omega} \partial_x \right) \psi_0(x)
+\end{align}
+Adesso sostituendo \eqref{eq:psi_0} e derivando si ottiene 
+%
+\begin{equation}
+    \psi_1(x) = \left( \frac{2}{\pi^{1/2}l_{\omega}^3} \right)^{1/2} x \ e^{-\frac{x^2}{2 l_{\omega}^2}}
+\end{equation}
+Potremmo svolgere un processo simile per ricavare $\psi_n(x)$, una formula generale è però 
+%
+\begin{tcolorbox}[colback=black!5!white, colframe=black!45!white, boxrule=0.8pt]
+\begin{equation}
+    \psi_n(x) = \left( \frac{1}{\pi^{1/2} l_{\omega} 2^n n!} \right)^{1/2} H_n\left(\frac{x}{l_{\omega}}\right) \ \text{exp}\left( -\frac{x^2}{2 l_{\omega}^2} \right)
+\end{equation}
+\end{tcolorbox}
+Dove si sono introdotti i polinomi di Hermite\mkeyword{polinomi di Hermite}:
+\begin{equation}
+    H_n(y) = e^{y^2/2} \left( y - \frac{d}{dy} \right)^n e^{-y^2/2}
+\end{equation}
+
+\section{Base degli impulsi}
+Nei passaggi precedenti abbiamo deciso di trovare gli autostati dell'hamiltoniano in coordinate, tuttavia possiamo farlo in modo del tutto analogo anche usando come base gli autostati dell'operatore impulso. 
+
+Sfruttiamo, come prima, la \eqref{eq:prima_rel} per ottenere $\tilde{\psi}_0(p)$, l'unica cosa è che adesso usiamo $\bra{p}$ invece di $\bra{x}$
+%
+\begin{align}
+    \Braket{p|\hat{a}|0} &= \frac{1}{\sqrt{2}}\Braket{p|p_{\omega}\frac{\hat{Q}}{\hbar} + i \frac{\hat{P}}{p_{\omega}}|0} \\
+    &= \frac{1}{\sqrt{2}}\left( i p_{\omega} \partial_p +  i \frac{p}{p_{\omega}}\right) \tilde{\psi}_0(p) = 0
+\end{align}
+Risolvendo l'equazione differenziale e imponendo la normalizzazione si ha 
+\begin{equation}
+    \tilde{\psi}_0(p) = \frac{1}{p_{\omega}^{1/2} \pi^{1/4}} e^{-\frac{p^2}{2 p_{\omega}^2}}
+\end{equation}
+Allora è facile intuire che anche le altre funzioni d'onda saranno analoghe al caso precedente e basterà effettuare lo scambio $x \to p$ e $l_{\omega} \to p_{\omega}$
+\begin{equation}
+    \tilde{\psi}_n(p) = \left( \frac{1}{\pi^{1/2} p_{\omega} 2^n n!} \right)^{1/2} H_n\left(\frac{p}{p_{\omega}}\right) \ \text{exp}\left( -\frac{p^2}{2 p_{\omega}^2} \right)
+\end{equation}

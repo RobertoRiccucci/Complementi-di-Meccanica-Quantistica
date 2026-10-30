@@ -82,6 +82,53 @@
          -- ++(-0.20,-0.18);
 }
 
+\tikzset{
+  sgstyle/.style={
+    line join=round, line cap=round,
+    every node/.style={font=\footnotesize},
+    sg/.style={draw, line width=0.7pt, minimum width=0.82cm,
+               minimum height=0.78cm, inner sep=0pt, font=\footnotesize},
+    ray/.style={line width=0.5pt},
+    stop/.style={line width=1.6pt},
+    lbl/.style={font=\scriptsize, inner sep=2pt},
+  }
+}
+
+% #1 sorgente  #2 ramo superiore  #3 ramo inferiore  #4 uscita
+\newcommand{\ricombinazione}[4]{%
+  \draw[line width=0.7pt] (0,-0.34) rectangle ++(0.78,0.68);
+  \draw[line width=0.7pt] (0.78,0.18) -- ++(0.20,-0.18) -- ++(-0.20,-0.18);
+  \node[font=\footnotesize, anchor=south] at (0.39,0.46) {#1};
+  \draw[ray,-{Latex[length=3.6pt]}] (0.98,0) -- (1.78,0);
+  \node[sg] at (2.19,0) {$\hat x$};
+  \draw[ray] (2.60,0) -- (3.90,0.72) -- (5.20,0);
+  \draw[ray] (2.60,0) -- (3.90,-0.72) -- (5.20,0);
+  \node[lbl, anchor=south] at (3.90,0.78) {#2};
+  \node[lbl, anchor=north] at (3.90,-0.78) {#3};
+  \node[sg] at (5.61,0) {$\hat x$};
+  \draw[ray,-{Latex[length=3.6pt]}] (6.02,0) -- (6.65,0);
+  \node[anchor=west, font=\footnotesize] at (6.72,0) {#4};
+}
+
+% #1 sorgente  #2 ramo superiore  #3 ramo inferiore  #4 uscita
+\newcommand{\ricombinazionerivelatore}[4]{%
+  \draw[line width=0.7pt] (0,-0.34) rectangle ++(0.78,0.68);
+  \draw[line width=0.7pt] (0.78,0.18) -- ++(0.20,-0.18) -- ++(-0.20,-0.18);
+  \node[font=\footnotesize, anchor=south] at (0.39,0.46) {#1};
+  \draw[ray,-{Latex[length=3.6pt]}] (0.98,0) -- (1.78,0);
+  \node[sg] at (2.19,0) {$\hat x$};
+  \draw[ray] (2.60,0) -- (3.90,0.85) -- (5.20,0);
+  \draw[ray] (2.60,0) -- (3.90,-0.85) -- (5.20,0);
+  \node[lbl, anchor=west] at (4.00,0.80) {#2};
+  \node[lbl, anchor=north] at (3.90,-0.92) {#3};
+  % rivelatore sul ramo superiore
+  \draw[fill=white, line width=0.7pt] (3.25,0.425) circle (0.16);
+  \node[lbl, anchor=south east] at (3.12,0.52) {$B$};
+  \node[sg] at (5.61,0) {$\hat x$};
+  \draw[ray,-{Latex[length=3.6pt]}] (6.02,0) -- (6.65,0);
+  \node[anchor=west, font=\footnotesize] at (6.72,0) {#4};
+}
+
 % ---------- GEOMETRIA PAGINA ----------
 % Scegli *una* delle due geometrie qui sotto.
 % (1) Impostazioni consigliate per A4 (Italia) con ampio margine esterno:
@@ -244,6 +291,9 @@
     \draw[line width=0.55pt,double,double distance=2.8pt,
           shorten <=#4,shorten >=#4] (#1)--(#2);
     \draw[line width=0.55pt,shorten <=#4,shorten >=#4] (#1)--(#2);\fi}
+
+\newcommand{\ketbra}[2]{\ket{#1}\bra{#2}}
+\newcommand{\proj}[1]{\ket{#1}\bra{#1}}
 
 \theoremstyle{definition}
 \newtheorem{definizione}{Definizione}[chapter]

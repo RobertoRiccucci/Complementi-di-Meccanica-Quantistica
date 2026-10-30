@@ -29,7 +29,8 @@ Definizioni, notazioni e dimostrazioni già presenti nel testo non vengono ripet
 | Prefazione | Scopo e convenzioni degli appunti |
 | 1 | Introduzione agli assiomi — esperimento di Stern-Gerlach e interpretazione dei risultati |
 | 2 | Sistemi composti - Prodotto tensore - Matrice densità di un sistema composto|
-| 3 | Oscillatore armonico: soluzione analitica — base degli impulsi |
+| 3 | Descrizione quantistica dello stern-gerlach - Spazio $\mathcal{H}_{\text{int}}$ - Ricollimazione del fascio|
+| 4 | Oscillatore armonico: soluzione analitica — base degli impulsi |
 
 Il lavoro è in corso (versione attuale: **v0.1**); altri capitoli verranno aggiunti man mano.
 

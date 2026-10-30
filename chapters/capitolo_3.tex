@@ -1,93 +1,291 @@
-\chapter{Oscillatore Armonico: soluzione analitica}
+\chapter{Descrizione quantistica dello Stern-Gerlach}
 
-Consideriamo un oscillatore armonico quantistico unidimensionale, il cui hamiltoniano è esprimibile nella forma 
-% 
+Adesso che abbiamo introdotto il formalismo quantistico per descrivere sistemi tramite le matrici densità, possiamo andare a dare una descrizione quantistica di quanto osservato negli esperimenti dello stern-gerlach. 
+
+L'atomo sparato dal forno nell'apparato ha due tipi di gradi di libertà: dove si trova, cioè le varibili orbitali, posizione e impulso e il suo grado di libertà interno, lo spin. \\
+Queste due varibili sono cinematicamente indipendenti, quindi posso descrivere lo spazio di Hilbert del sistema come 
+\begin{tcolorbox}[colback=black!5!white, colframe=black!45!white, boxrule=0.8pt]
 \begin{equation}
-    \hat{H} = \frac{\hat{P}^2}{2m} + \frac{m\omega^2 \hat{Q}^2}{2}
+    \mathcal{H} = \mathcal{H}_{\text{int}} \otimes \mathcal{H}_{\text{orb}}
 \end{equation}
-Possiamo trovare lo spettro degli autovalori proseguendo con due approcci diversi: con un \emph{approccio algebrico} o con un \emph{approccio analitico}. 
+\end{tcolorbox}
+In particolare di ha che $\text{dim} \ \mathcal{H}_{\text{orb}} = \infty$, in quanto la posizione è continua, e $\text{dim} \ \mathcal{H}_{\text{int}} = 2$, in quanto lo spin può essere solo \emph{up} o \emph{down}. 
 
-In \cite{Ballentine} sono affrontati entrambi gli approcci, tuttavia esiste un modo che semplifica notevolmente l'approccio analitico che permette di avere a che fare solo con equazioni differenziali del primo ordine (mentre altrimenti dovremmo trattare equazioni differenziali di secondo ordine). \\
-Questo metodo parte dai risultati ottenuti con l'approccio algebrico, per questo sarà necessario riportarli velocemente. 
+\section{Spazio $\mathcal{H}_{\text{int}}$}
 
-Definendo l'operatore di distruzione\mkeyword{operatore di distruzione} e l'operatore di costruzione\mkeyword{operatore di costruzione} rispettivamente come 
+Vogliamo ora descrivere esplicitamente lo spazio $\mathcal{H}_{\text{int}}$, individuandone una base e ricavando le relazioni fra le basi associate ad assi diversi.
+
+Indichiamo con $\ket{z, +}$ e $\ket{z, -}$ gli stati delle particelle cheemergono rispettivamente dal canale superiore e da quello inferiore di un apparato orientato lungo $\hat{z}$.
+
+Questi due stati sono ortogonali, e il motivo è sperimentale: una sorgente pura $\ket{z, +}$ rianalizzata lungo $\hat{z}$ restituisce il $100\%$ degli atomi nel canale up e nessuno in quello down. Probabilità nulla significa prodotto scalare nullo,
 %
 \begin{equation}
-\label{eq:cost_distr}
-    \hat{a} = \frac{1}{\sqrt{2}} \left( \frac{\hat{Q}}{l_{\omega}} + i \frac{\hat{P}}{p_{\omega}} \right) \quad , \quad \hat{a}^{\dagger} = \frac{1}{\sqrt{2}} \left( \frac{\hat{Q}}{l_{\omega}} - i \frac{\hat{P}}{p_{\omega}} \right)
+    \braket{z, + |z, -} = 0
+    \label{eq:ortogonalita-z}
 \end{equation}
-E definendo $\{\ket{n} : \ n\in \mathbb{N} \cup \{ 0 \}\}$ l'insieme degli autostati di $\hat{H}$ si ha che valgono le seguenti relazioni
 %
-\begin{align}
-    \hat{a} \ket{0} &= 0 \label{eq:prima_rel}\\
-    \ket{n} &= \frac{1}{\sqrt{n!}}(\hat{a}^{\dagger})^n \ket{0}
-    \label{eq:relazione_creaz_distr}
-\end{align}
-La prima servirà per trovare $\psi_0 (x)$ mentre la seconda sarà necessaria per ricavare $\psi_n(x)$. 
-
-Vale infatti
+Essendo ortogonali sono in particolare linearmente indipendenti, e poiché $\dim \mathcal{H}_{\text{int}} = 2$ essi costituiscono una base ortonormale:
 %
-\begin{align}
-    \Braket{x|\hat{a}|0} &= \frac{1}{\sqrt{2}}\Braket{x|\frac{\hat{Q}}{l_{\omega}} + i l_{\omega} \frac{\hat{P}}{\hbar}|0} \\
-    &= \frac{1}{\sqrt{2}}\left( \frac{x}{l_{\omega}} + l_{\omega} \partial_x \right) \psi_0(x) = 0
-\end{align}
-Dove abbiamo usato la prima relazione, riscrivendo $\hat{Q}$ e $\hat{P}$ in coordinate. Inoltre abbiamo usato $l_{\omega} \cdot p_{\omega} = \hbar$.
+\begin{equation}
+    \mathcal{H}_{\text{int}} = \operatorname{span}
+    \bigl\{ \ket{z, +} \, , \, \ket{z, -} \bigr\}
+    \label{eq:span-int}
+\end{equation}
 
-Risolvendo l'equazione differenziale con il metodo delle variabili separabili si ottiene 
+Ogni stato interno è dunque rappresentato da un vettore della forma
+%
+\begin{equation}
+    \ket{\psi} = \alpha \ket{z, +} + \beta \ket{z, -}
+    \, , \qquad |\alpha|^2 + |\beta|^2 = 1
+    \label{eq:stato-interno}
+\end{equation}
+%
+Conviene però riscriverlo in una forma più maneggevole. Poiché lo stato è definito a meno di una fase globale, possiamo sfruttare questa libertà per rendere reale e positivo il primo coefficiente, ottenendo
+%
+\begin{equation}
+    \ket{\psi} = |\alpha| \ket{z, +}
+    + \sqrt{1 - |\alpha|^2} \; e^{i \theta} \ket{z, -}
+    \label{eq:stato-interno-ridotto}
+\end{equation}
+%
+dove restano due soli parametri reali: il modulo $|\alpha|$ e la fase relativa $\theta$.
+
+\subsection*{Stati lungo $\hat{x}$ e $\hat{y}$}
+
+Disponendo della base lungo $\hat{z}$, possiamo ricavare la forma esplicita degli stati associati agli altri assi.
+
+Il dato sperimentale di partenza è che una sorgente $\ket{z, +}$ inviata in un filtro orientato lungo $\hat{x}$ si ripartisce equamente fra i due canali, e altrettanto accade per una sorgente $\ket{z, -}$:
 %
 \begin{equation*}
-    \psi_0(x) = A e^{- \frac{x^2}{2 l_{\omega}^2}}
+    \bigl| \braket{x, + |z, +} \bigr|^2 = \bigl| \braket{x, - |z, +} \bigr|^2 = \frac{1}{2}
 \end{equation*}
-Il valore di $A$ si trova con la normalizzazione 
 %
-\begin{align*}
-    \int_{-\infty}^{\infty} dx \ |\psi_0(x)|^2 = A^2 \int_{-\infty}^{\infty} dx \ e^{-\frac{x^2}{l_{\omega}^2}} = A^2 \ \sqrt{\pi l_{\omega}^2} = 1 \implies A = \frac{1}{l_{\omega}^{1/2}\pi^{1/4}}
-\end{align*}
+Questa informazione fissa il \emph{modulo} dei coefficienti dello sviluppo, ma non la loro fase, che resta per il momento indeterminata. Scriviamodunque
 %
-Quindi si ha 
-%
-\begin{equation}
-\label{eq:psi_0}
-    \psi_0(x) = \frac{1}{l_{\omega}^{1/2}\pi^{1/4}} e^{- \frac{x^2}{2 l_{\omega}^2}}
-\end{equation}
+\begin{equation*}
+    \ket{z,+} = \frac{\ket{x,+}}{\sqrt{2}}
+    + e^{i\theta_+} \frac{\ket{x,-}}{\sqrt{2}}
+    \, , \qquad
+    \ket{z,-} = \frac{\ket{x,+}}{\sqrt{2}}
+    + e^{i\theta_-} \frac{\ket{x,-}}{\sqrt{2}}
+\end{equation*}
 
-Adesso grazie alla relazione \eqref{eq:relazione_creaz_distr} possiamo ricavare $\psi_n(x) \ , \forall n \ \in \mathbb{N} \cup \{ 0 \}$. Ricaveremo solo $\psi_1(x)$ per poi dare una formula generale per $\psi_n(x)$, tuttavia sarebbe possibile ricavare ogni $\psi_n(x)$ con un metodo del tutto analogo. 
+Le due fasi non sono indipendenti: i vettori $\ket{z,+}$ e $\ket{z,-}$ devono continuare a soddisfare la \eqref{eq:ortogonalita-z}. Imponendola,
 %
-\begin{align}
-    \psi_1(x) = \Braket{x|1} = \Braket{x|\hat{a}^{\dagger}|0} &= \frac{1}{\sqrt{2}}\Braket{x|\frac{\hat{Q}}{l_{\omega}} - i l_{\omega} \frac{\hat{P}}{\hbar}|0}\\
-    &= \frac{1}{\sqrt{2}} \left( \frac{x}{l_{\omega}} - l_{\omega} \partial_x \right) \psi_0(x)
-\end{align}
-Adesso sostituendo \eqref{eq:psi_0} e derivando si ottiene 
+\begin{equation*}
+    \braket{z,-|z,+} = \frac{1}{2} + \frac{1}{2} e^{i(\theta_+ - \theta_-)} = 0 \implies e^{i(\theta_+ - \theta_-)} = -1 \implies \theta_+ - \theta_- = \pi
+\end{equation*}
+
+Resta determinata soltanto la \emph{differenza} delle due fasi: quella comune corrisponde a ridefinire la fase del vettore di base $\ket{x,-}$, ed è dunque una convenzione priva di contenuto fisico. Fissiamola scegliendo $\theta_- = 0$ e $\theta_+ = \pi$, cosicché
 %
 \begin{equation}
-    \psi_1(x) = \left( \frac{2}{\pi^{1/2}l_{\omega}^3} \right)^{1/2} x \ e^{-\frac{x^2}{2 l_{\omega}^2}}
+\label{eq:relazioni_z_x}
+    \ket{z,+} = \frac{\ket{x,+} - \ket{x,-}}{\sqrt{2}} \quad , \quad \ket{z,-} = \frac{\ket{x,+} + \ket{x,-}}{\sqrt{2}}
 \end{equation}
-Potremmo svolgere un processo simile per ricavare $\psi_n(x)$, una formula generale è però 
+%
+e invertendo queste due relazioni si ottiene infine
 %
 \begin{tcolorbox}[colback=black!5!white, colframe=black!45!white, boxrule=0.8pt]
 \begin{equation}
-    \psi_n(x) = \left( \frac{1}{\pi^{1/2} l_{\omega} 2^n n!} \right)^{1/2} H_n\left(\frac{x}{l_{\omega}}\right) \ \text{exp}\left( -\frac{x^2}{2 l_{\omega}^2} \right)
+    \label{eq:base-x}
+    \ket{x, +} = \frac{\ket{z, +} + \ket{z, -}}{\sqrt{2}}\quad , \quad \ket{x, -} = \frac{\ket{z, -} - \ket{z, +}}{\sqrt{2}}
 \end{equation}
 \end{tcolorbox}
-Dove si sono introdotti i polinomi di Hermite\mkeyword{polinomi di Hermite}:
+
+Possiamo fare un ragionamente simile anche per un filtro orientato lungo $\hat{y}$, ottenendo 
+\begin{equation*}
+    \ket{y, \pm} = \frac{\ket{z,+} + e^{i\phi_{\pm}}\ket{z,-}}{\sqrt{2}} \quad , \quad \phi_+ - \phi_- = \pi
+\end{equation*}
+Questa volta, però, dobbiamo anche considerare il fatto che, facendo passare una sorgente $\ket{x, \pm}$ in un filtro orientato lungo $\hat{y}$ si ripartisce equamente tra i due canali
+\begin{equation*}
+    |\braket{y,+|x,+}|^2=\left|\frac{1+e^{-i\phi_+}}{2}\right|^2=\frac{1+\cos\phi_+}{2}=\frac12 \implies \cos\phi_+=0 \implies e^{i\phi_+}=\pm i
+\end{equation*}
+Prendendo $\phi_+=\pi/2$ e quindi $\phi_-=-\pi/2$:
+\begin{tcolorbox}[colback=black!5!white, colframe=black!45!white, boxrule=0.8pt]
 \begin{equation}
-    H_n(y) = e^{y^2/2} \left( y - \frac{d}{dy} \right)^n e^{-y^2/2}
+    \ket{y,+}=\frac{\ket{z,+} + i\,\ket{z,-}}{\sqrt2} \quad , \quad \ket{y,-}=\frac{\ket{z,+} - i\,\ket{z,-}}{\sqrt2}
 \end{equation}
+\end{tcolorbox}
 
-\section{Base degli impulsi}
-Nei passaggi precedenti abbiamo deciso di trovare gli autostati dell'hamiltoniano in coordinate, tuttavia possiamo farlo in modo del tutto analogo anche usando come base gli autostati dell'operatore impulso. 
+\newpage
 
-Sfruttiamo, come prima, la \eqref{eq:prima_rel} per ottenere $\tilde{\psi}_0(p)$, l'unica cosa è che adesso usiamo $\bra{p}$ invece di $\bra{x}$
+\section{Ricollimazione del fascio}
+
+Adesso che abbiamo trovato un modo per identificare gli stati della particella, possiamo andare a spiegare i risultati trovati durante l'esperimento, in particolare in questa sezione andremo a trattare la ricollimazione del fascio e vedremo in dettaglio il perché la presenza di un rivelatore modifichi lo stato di uscita.
+
+In questo caso un sistema misto può essere scritto come 
+\begin{equation}
+    \hat{\rho}_{\text{misto}} = \frac{\ketbra{z, +}{z, +} + \ketbra{z, -}{z, -}}{2} \otimes \ketbra{\psi}{\psi} = \frac{\hat{\mathds{1}}}{2} \otimes \ketbra{\psi}{\psi}
+\end{equation}
+Oppure, al posto di $z$, mettendo $x$ o $y$.
+
+\subsection*{L'azione dell'apparato}
+
+Tutto quanto segue discende da una sola ipotesi fisica, che riguarda il modo
+in cui il campo disomogeneo agisce sull'atomo. Detto $\ket{\text{in}}$ lo
+stato orbitale del fascio collimato in ingresso, un apparato orientato lungo
+$\hat{x}$ separa spazialmente le due componenti dello spin:
 %
-\begin{align}
-    \Braket{p|\hat{a}|0} &= \frac{1}{\sqrt{2}}\Braket{p|p_{\omega}\frac{\hat{Q}}{\hbar} + i \frac{\hat{P}}{p_{\omega}}|0} \\
-    &= \frac{1}{\sqrt{2}}\left( i p_{\omega} \partial_p +  i \frac{p}{p_{\omega}}\right) \tilde{\psi}_0(p) = 0
-\end{align}
-Risolvendo l'equazione differenziale e imponendo la normalizzazione si ha 
+\begin{tcolorbox}[colback=black!5!white, colframe=black!45!white, boxrule=0.8pt]
 \begin{equation}
-    \tilde{\psi}_0(p) = \frac{1}{p_{\omega}^{1/2} \pi^{1/4}} e^{-\frac{p^2}{2 p_{\omega}^2}}
+    \hat{U}_1 : \quad
+    \ket{x,+} \otimes \ket{\text{in}} \longmapsto \ket{x,+} \otimes \ket{S}
+    \quad , \quad
+    \ket{x,-} \otimes \ket{\text{in}} \longmapsto \ket{x,-} \otimes \ket{I}
+    \label{eq:apparato}
 \end{equation}
-Allora è facile intuire che anche le altre funzioni d'onda saranno analoghe al caso precedente e basterà effettuare lo scambio $x \to p$ e $l_{\omega} \to p_{\omega}$
+\end{tcolorbox}
+%
+dove $\ket{S}$ e $\ket{I}$ sono gli stati orbitali dei due cammini, superiore
+e inferiore, e sono ortogonali, $\braket{S|I} = 0$, perché corrispondono a
+regioni di spazio distinte.
+
+Si noti che la \eqref{eq:apparato} definisce $\hat{U}_1$ sui soli vettori
+della base di $\hat{x}$: su una generica sovrapposizione agisce per
+\emph{linearità}. È da questa semplice circostanza che discenderà tutto il
+resto.
+
+Il secondo apparato, di gradiente invertito, riporta i due cammini a
+sovrapporsi in un unico stato orbitale $\ket{U}$:
+%
+\begin{tcolorbox}[colback=black!5!white, colframe=black!45!white, boxrule=0.8pt]
 \begin{equation}
-    \tilde{\psi}_n(p) = \left( \frac{1}{\pi^{1/2} p_{\omega} 2^n n!} \right)^{1/2} H_n\left(\frac{p}{p_{\omega}}\right) \ \text{exp}\left( -\frac{p^2}{2 p_{\omega}^2} \right)
+    \hat{U}_2 : \quad
+    \ket{x,+} \otimes \ket{S} \longmapsto \ket{x,+} \otimes \ket{\text{out}}
+    \quad , \quad
+    \ket{x,-} \otimes \ket{I} \longmapsto \ket{x,-} \otimes \ket{\text{out}}
+    \label{eq:ricombinatore}
 \end{equation}
+\end{tcolorbox}
+%
+Anche questa è una trasformazione unitaria: i due vettori di partenza sono
+ortogonali e tali restano quelli di arrivo, che differiscono nel fattore di
+spin\footnote{Basta che $\hat{U}_2$ sia definita sul sottospazio
+effettivamente occupato dopo il primo apparato, cioè
+$\operatorname{span}\{\ket{x,+}\ket{S}, \ket{x,-}\ket{I}\}$.}.
+
+\newpage
+
+\subsection{Ricollimazione senza rivelatore}
+
+Consideriamo come prima cosa il caso di una ricollimazione quando \emph{non} è presente un rivelatore. 
+
+\subsection*{Sorgente mista}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[sgstyle]
+  \ricombinazione{$\hat{\rho}_{\text{misto}}$}
+    {$\ketbra{x,+}{x,+}$}{$\ketbra{x,-}{x,-}$}
+    {$\dfrac{\hat{\mathds{1}}}{2}$}
+\end{tikzpicture}
+\caption{Ricombinazione con sorgente mista: lo stato in uscita coincide
+con quello in ingresso.}
+\label{fig:ricomb-misto}
+\end{figure}
+
+Lo stato iniziale è
+\begin{equation*}
+    \hat{\rho}_{\text{in}} = \frac{\hat{\mathds{1}}}{2} \otimes \ketbra{\text{in}}{\text{in}}
+    = \left( \frac{\ketbra{x,+}{x,+} + \ketbra{x,-}{x,-}}{2} \right)
+    \otimes \ketbra{\text{in}}{\text{in}}
+\end{equation*}
+dove nella seconda uguaglianza si è usato che $\hat{\mathds{1}}/2$ è la stessa matrice in ogni base, e in particolare in quella del filtro attraversato.
+
+Applicando la \eqref{eq:apparato} a ciascuno dei due addendi si ottiene lo stato fra i due apparati:
+\begin{equation}
+    \hat{\rho}_1 = \frac12 \, \ketbra{x,+}{x,+} \otimes \ketbra{S}{S}
+    + \frac12 \, \ketbra{x,-}{x,-} \otimes \ketbra{I}{I}
+    \label{eq:misto-intermedio}
+\end{equation}
+Applicando infine la \eqref{eq:ricombinatore}, entrambi i fattori orbitali diventano $\ketbra{\text{out}}{\text{out}}$, che si raccoglie:
+\begin{equation}
+    \hat{\rho}_{\text{out}} = \frac{\hat{\mathds{1}}}{2} \otimes \ketbra{\text{out}}{\text{out}}
+    \label{eq:misto-out}
+\end{equation}
+
+Pertanto si ha, come ci aspettavamo, che lo stato di uscita è uno stato misto. 
+
+\subsection*{Sorgente pura}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[sgstyle]
+    \ricombinazione{$\ket{z,+}$}
+    {$\tfrac{1}{\sqrt2}\ket{x,+}\ket{S}$}{$-\tfrac{1}{\sqrt2}\ket{x,-}\ket{I}$}
+    {$\ket{z,+}$}
+\end{tikzpicture}
+\caption{Ricombinazione con sorgente pura: lo stato $\ket{z,+}$ viene
+ricostruito all'uscita.}
+\label{fig:ricomb-puro}
+\end{figure}
+
+Lo stato iniziale è 
+\begin{equation}
+    \hat{\rho}_{\text{in}} = \ketbra{z, +}{z, +} \otimes \ketbra{\text{in}}{\text{in}}
+\end{equation}
+Sfruttando la relazione \eqref{eq:relazioni_z_x} possiamo scrivere la matrice densità in termini di $\ket{x, \pm}$
+\begin{align*}
+    \ketbra{z, +}{z,+} &= \frac{(\ket{x, +} - \ket{x, -})(\bra{x, +} - \bra{x, -})}{2}\\
+    &= \frac{\ketbra{x,+}{x,+} + \ketbra{x,-}{x, -} - \ketbra{x, +}{x, -} - \ketbra{x, -}{x, +}}{2}
+\end{align*}
+In questo modo, dopo il primo stern-gerlach, lo stato diventa
+\begin{align*}
+    \hat{\rho}_1 = \frac{\ketbra{x, +}{x, +} \otimes \ketbra{S}{S} - \ketbra{x,-}{x, +} \otimes \ketbra{I}{S} + \ketbra{x, -}{x, -} \otimes \ketbra{I}{I} - \ketbra{x,+}{x, -} \otimes \ketbra{S}{I}}{2}
+\end{align*}
+Uscendo, possiamo applicare la \eqref{eq:ricombinatore}, tutti i fattori orbitali diventano $\ketbra{\text{out}}{\text{out}}$, che si raccoglie:
+%
+\begin{equation}
+    \hat{\rho}_{\text{out}} = \ketbra{z, +}{z, +} \otimes \ketbra{\text{out}}{\text{out}}
+\end{equation}
+
+Quindi si ha che lo stato di uscita è uno stato puro, come si vede nell'esperimento. In questo modo è conservata la coerenza quantomeccanica. 
+
+\subsection{Ricollimazione con rivelatore}
+
+Consideriamo adesso il caso in cui sul ramo up ci sia un rivelatore, modellizzato come uno stumento a due stati $\ket{0}$ e $\ket{1}$ che in quiete si trova nello stato $\ket{0}$ e quando rileva il passaggio di una particella passa allo stato $\ket{1}$. 
+
+Andiamo ad analizzare il caso in cui la sorgente di partenza è una sorgente pura. Chiamiamo il sistema della sorgente sistema $A$, mentre chiamiamo il sistema del rivelatore sistema $B$. 
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[sgstyle]
+  \ricombinazionerivelatore{$\ket{z,+}_A$}
+    {$\ket{x,+}\ket{S}$}{$\ket{x,-}\ket{I}$}
+    {$\dfrac{\hat{\mathds{1}}}{2}$}
+\end{tikzpicture}
+\caption{Ricombinazione con un rivelatore $B$ sul ramo superiore. Il
+rivelatore passa da $\ket{0}_B$ a $\ket{1}_B$ al passaggio della
+particella; lo stato in uscita è misto, pur essendo pura la sorgente.}
+\label{fig:ricomb-rivelatore}
+\end{figure}
+
+Lo stato iniziale è 
+\begin{align*}
+    \hat{\rho}_{\text{in}} &= \ketbra{z,+}{z,+}_A \otimes \ketbra{\text{in}}{\text{in}}_A \otimes \ketbra{0}{0}_B\\
+    &= \frac{\ketbra{x,+}{x,+}_A + \ketbra{x,-}{x, -}_A - \ketbra{x, +}{x, -}_A - \ketbra{x, -}{x, +}_A}{2} \otimes \ketbra{\text{in}}{\text{in}}_A \otimes \ketbra{0}{0}_B
+\end{align*}
+
+Dopo il passaggio per il primo stern-gerlach ma \emph{prima} del passaggio attraverso il rivelatore lo stato è 
+\begin{align*}
+    \hat{\rho}_{1,i} = \frac{\ketbra{x, +}{x, +} \otimes \ketbra{S}{S} - \ketbra{x,-}{x, +} \otimes \ketbra{I}{S} + \ketbra{x, -}{x, -} \otimes \ketbra{I}{I} - \ketbra{x,+}{x, -} \otimes \ketbra{S}{I}}{2} \otimes \ketbra{0}{0}_B
+\end{align*}
+Invece, \emph{dopo} il passaggio
+\begin{align*}
+    \hat{\rho}_{1,f} = \frac{1}{2} \Bigl[ &
+      \ketbra{x,+}{x,+} \otimes \ketbra{S}{S} \otimes \ketbra{1}{1}
+    + \ketbra{x,-}{x,-} \otimes \ketbra{I}{I} \otimes \ketbra{0}{0} \\
+    &- \ketbra{x,+}{x,-} \otimes \ketbra{S}{I} \otimes \ketbra{1}{0}
+     - \ketbra{x,-}{x,+} \otimes \ketbra{I}{S} \otimes \ketbra{0}{1}
+    \Bigr]
+\end{align*}
+Infine, all'uscita 
+\begin{equation*}
+    \hat{\rho}_{\text{out}} = \frac{1}{2} \Bigl[\ketbra{x,+}{x,+} \otimes \ketbra{1}{1} + \ketbra{x,-}{x,-} \otimes \ketbra{0}{0} - \ketbra{x,+}{x,-} \otimes \ketbra{1}{0} - \ketbra{x,-}{x,+} \otimes \ketbra{0}{1}\Bigr] \otimes \ketbra{\text{out}}{\text{out}}
+\end{equation*}
+
+Dato che a noi interessa lo stato di $A$, ricaviamo la matrice densità ridotta $\rho_A$:
+\begin{equation*}
+    \hat{\rho}_A = \operatorname{tr}_B (\hat{\rho}_{\text{out}}) = \frac{\ketbra{x, +}{x, +} + \ketbra{x, -}{x, -}}{2} \otimes \ketbra{\text{out}}{\text{out}} = \frac{\hat{\mathds{1}}}{2} \otimes \ketbra{\text{out}}{\text{out}}
+\end{equation*}
+Si ha allora in questo caso che pur avendo come sorgente input una sorgente pura, non otteniamo come output uno stato puro, bensì uno stato misto. 
